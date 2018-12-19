@@ -106,7 +106,7 @@ function load($id) {
            $this->descripcion = $post['descripcion'];
            $this->tipo = $post['tipo'];
            $usuario=new Usuario();
-           $usuario->load($usuario['idusuario']);
+           $usuario->load($post['idusuario']);
            $this->usuario = $usuario;
        } else {
            throw new Exception("No existe ese registro");

@@ -16,9 +16,9 @@
         $d->load(1);
         $b->emisor = $d;
         $j = new Usuario();
-        $j->load(2);
+        $j->load(4);
         $b->receptor = $j;
-        $b->mensaje="Send Nudes Pls";
+        $b->mensaje="SHola que tal";
         print_r($d);
         print_r($j);
         $b->save();
