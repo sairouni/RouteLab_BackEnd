@@ -119,5 +119,8 @@ class Valoracion extends BasedeDatos {
             $this->update($this->idvaloracion, $valoracion);
         }
     }
-
+    
+    function getValoracionByPost($id){
+       return $this->getAll(['idpost'=>$id]);
+    }
 }

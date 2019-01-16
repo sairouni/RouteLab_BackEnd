@@ -16,9 +16,9 @@
         $d->load(2);
         $b->idusuario = $d;
         $j = new Post();
-        $j->load(1);
+        $j->load(3);
         $b->idpost = $j;
-        $b->valoracion=9;
+        $b->valoracion=4;
         print_r($d);
         print_r($j);
         $b->save();
