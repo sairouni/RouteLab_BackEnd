@@ -136,6 +136,14 @@ class Post extends BasedeDatos {
         }
     }
     
+    /*
+     * Función media que calcula la media llamando a la funcion de la clase
+     * Valoracion. Recoge todas las valoraciones de un id Post en concreto
+     * y la almacena en una variable que pasa a ser un Array. Recorremos el
+     * array valores y las guardamos en una variable sumandolas cada vez que
+     * se recorre el array. Devuelve el valor dividido por la cantidad de 
+     * valoraciones totales que ha tenido el post.
+     */
     function media() {
         $b = new Valoracion();
         $valores = $b->getValoracionByPost($this->idpost);

@@ -120,6 +120,12 @@ class Valoracion extends BasedeDatos {
         }
     }
     
+    /*
+     * Función para calcular la media, definida en esta clase para coger el id 
+     * del post y llamarlo en la clase Post. Devuelve todos los valores de un 
+     * id (en este caso el id de un post) cogiendolos mediante la función 
+     * getAll definida en esta misma clase.
+     */
     function getValoracionByPost($id){
        return $this->getAll(['idpost'=>$id]);
     }
