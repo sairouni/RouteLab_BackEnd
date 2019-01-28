@@ -10,7 +10,7 @@
        require_once'localidad.php';
        require_once 'Post.php';
 
-           /*$a = new usuario();
+           $a = new usuario();
           $a->nombreusuario="marc_elcampeador";
           $a->nombre="marc";
           $a->email="marc@gmail.com";
@@ -24,9 +24,9 @@
           $c->load(1);
           $a->localidad=$c;
           print_r($c);
-          $a->save();*/
+          $a->save();
        
-          
+          /*
           $b = new Post();
           $b->titulo="La travesia en Argentina";
           $b->descripcion=" en esta travesia seras bien chido";
@@ -36,7 +36,7 @@
           $d->load(4);
           $b->usuario=$d;
           print_r($d);
-           
+           */
     
        ?>
    </body>

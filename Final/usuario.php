@@ -1,5 +1,4 @@
 <?php
-
 require_once 'BasedeDatos.php';
 require_once 'Localidad.php';
 /*
@@ -211,6 +210,11 @@ class usuario extends BasedeDatos{
        } else {
            $this->update($this->idusuario, $usuario);
        }
+   }
+   function login(){
+       
+       
+       
    }
     
 }
