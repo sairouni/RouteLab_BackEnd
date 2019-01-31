@@ -189,13 +189,6 @@ class usuario extends BasedeDatos{
        }
    }
    
-    private function valores() {
-
-       $valores = array_map(function($v) {
-           return $this->$v;
-       }, $this->fields);
-       return array_combine($this->fields, $valores);
-   }
 
     
        function save() {
@@ -211,11 +204,5 @@ class usuario extends BasedeDatos{
            $this->update($this->idusuario, $usuario);
        }
    }
-   function login(){
-       
-       
-       
-   }
     
 }
-

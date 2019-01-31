@@ -94,14 +94,6 @@ class Social extends BasedeDatos {
            throw new Exception("No hay registro para borrar");
        }
    }
-     private function valores() {
-
-       $valores = array_map(function($v) {
-           return $this->$v;
-       }, $this->fields);
-       return array_combine($this->fields, $valores);
-   }
-
     
           function save() { //duda
         $social = $this->valores();

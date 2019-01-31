@@ -114,14 +114,6 @@ class Post extends BasedeDatos {
         }
     }
 
-    private function valores() {
-
-        $valores = array_map(function($v) {
-            return $this->$v;
-        }, $this->fields);
-        return array_combine($this->fields, $valores);
-    }
-
     function save() {
         $post = $this->valores();
         unset($post['idpost']);
@@ -155,6 +147,10 @@ class Post extends BasedeDatos {
         return $med/count($valores);
         
     }
+   
+    
+    //funcion que devulve todos los POst
+
 
 }
 

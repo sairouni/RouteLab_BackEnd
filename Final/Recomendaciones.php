@@ -108,17 +108,6 @@ function delete() {
    }
 
 
-
-
-private function valores() {
-
-       $valores = array_map(function($v) {
-           return $this->$v;
-       }, $this->fields);
-       return array_combine($this->fields, $valores);
-   }
-
-
    function save() {
        $recomendaciones = $this->valores();
        unset($recomendaciones['idrec']);

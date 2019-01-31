@@ -138,6 +138,23 @@ abstract class BasedeDatos {
         }
     }
 
+    protected function valores() {
+
+        $valores = array_map(function($v) {
+            return $this->$v;
+        }, $this->fields);
+        return array_combine($this->fields, $valores);
+    }
+
+    function serialize() {
+        return $this->valores();
+    }
+
+    function loadAll() {
+        $post = $this->getAll();
+        return $post;
+    }
+
     abstract function load($id);
 
     abstract function save();
