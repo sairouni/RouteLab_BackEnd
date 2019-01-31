@@ -111,7 +111,7 @@ class Asociada extends BasedeDatos {
         
          $this->post->save();
         $asociada['idpost']=$this->post->idpost;
-        unset($asociada['post']);
+        unset($asociada['idpost']);
        if (empty($this->idasociada)) {
            $this->insert($asociada);
            $this->idasociada = self::$conn->lastInsertId();

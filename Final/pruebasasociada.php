@@ -5,9 +5,9 @@
     </head>
     <body>
         <?php
-        require_once 'Asociada.php';
-        require_once 'localidad.php';
-        require_once 'post.php';
+        require_once 'Clases/Asociada.php';
+        require_once 'Clases/localidad.php';
+        require_once 'Clases/post.php';
 
 
         $b = new Asociada();

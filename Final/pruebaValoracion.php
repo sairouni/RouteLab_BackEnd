@@ -6,9 +6,9 @@
     </head>
     <body>
         <?php
-        require_once 'valoracion.php';
-        require_once 'usuario.php';
-        require_once 'Post.php';
+        require_once 'Clases/valoracion.php';
+        require_once 'Clases/usuario.php';
+        require_once 'Clases/Post.php';
 
 
         $b = new Valoracion();

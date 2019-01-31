@@ -6,14 +6,14 @@
    <body>
        <?php
        
-       require_once'usuario.php';
-       require_once'localidad.php';
-       require_once 'Post.php';
+       require_once'Clases/usuario.php';
+       require_once'Clases/localidad.php';
+       require_once 'Clases/Post.php';
 
            $a = new usuario();
-          $a->nombreusuario="marc_elcampeador";
-          $a->nombre="marc";
-          $a->email="marc@gmail.com";
+          $a->nombreusuario="marc_elcampeador2";
+          $a->nombre="marc2";
+          $a->email="marc2@gmail.com";
           $a->nombre="marquitus";
           $a->fechanacimiento='1920-02-10';
           $a->pass="marcos";

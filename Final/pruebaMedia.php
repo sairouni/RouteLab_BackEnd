@@ -6,8 +6,8 @@
     </head>
     <body>
         <?php
-        require_once 'Post.php';
-        require_once 'valoracion.php';
+        require_once 'Clases/Post.php';
+        require_once 'Clases/valoracion.php';
         
         $b = new Post();
         $b->load(1);

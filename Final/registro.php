@@ -1,8 +1,8 @@
 
 <?php
-require_once'usuario.php';
-require_once'localidad.php';
-require_once 'Post.php';
+require_once'Clases/usuario.php';
+require_once'Clases/localidad.php';
+require_once 'Clases/Post.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');

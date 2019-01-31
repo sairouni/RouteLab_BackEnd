@@ -6,8 +6,8 @@
     </head>
     <body>
         <?php
-        require_once 'Social.php';
-        require_once 'usuario.php';
+        require_once 'Clases/Social.php';
+        require_once 'Clases/usuario.php';
 
         $b = new Social();
         $d = new Usuario();

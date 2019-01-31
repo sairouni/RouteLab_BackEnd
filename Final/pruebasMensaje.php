@@ -6,8 +6,8 @@
     </head>
     <body>
         <?php
-        require_once 'classMensajeria.php';
-        require_once 'usuario.php';
+        require_once 'Clases/classMensajeria.php';
+        require_once 'Clases/usuario.php';
 
         $b = new Mensajeria();
         $b->fecha = "2018-12-13";
@@ -16,7 +16,7 @@
         $d->load(1);
         $b->emisor = $d;
         $j = new Usuario();
-        $j->load(4);
+        $j->load(2);
         $b->receptor = $j;
         $b->mensaje="SHola que tal";
         print_r($d);
