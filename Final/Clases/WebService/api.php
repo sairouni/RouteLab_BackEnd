@@ -14,10 +14,10 @@ $id = filter_input(INPUT_GET, "id");
 $verb = $_SERVER['REQUEST_METHOD'];
 $http = new HTTP();
 
-require_once $controller . '.php'; //require once lo que te pide el controller
+require_once '../'.$controller . '.php'; //require once lo que te pide el controller
 
 
-if (empty($controller) || !file_exists($controller . ".php")) {
+if (empty($controller) || !file_exists('../'.$controller . ".php")) {
     $http = new HTTP();
     $http->setHttpHeaders(400, new Response("Bad request"));
     die();
