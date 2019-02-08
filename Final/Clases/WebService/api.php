@@ -12,6 +12,7 @@ require_once 'Response.php';
 $controller = filter_input(INPUT_GET, "controller");
 $id = filter_input(INPUT_GET, "id");
 $verb = $_SERVER['REQUEST_METHOD'];
+$funcion = filter_input(INPUT_GET, 'funcion');
 $http = new HTTP();
 
 require_once '../'.$controller . '.php'; //require once lo que te pide el controller

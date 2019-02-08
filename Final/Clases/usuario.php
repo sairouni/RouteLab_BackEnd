@@ -126,6 +126,11 @@ class usuario extends BasedeDatos{
         $this->localidad=$localidad;
         
     }
+    function setidlocalidad($id){
+        $localidad=new Localidad();
+        $localidad->load($id);
+        $this->localidad=$localidad;
+    }
     
     
     function __get($name) {
@@ -204,5 +209,11 @@ class usuario extends BasedeDatos{
            $this->update($this->idusuario, $usuario);
        }
    }
+   
+        protected function getByNombreusu($nombreusuario) {
+        $res = self::$conn->query("select * from usuario  where nombreusuario ". "=" . $nombreusuario);
+        return $res->fetch(PDO::FETCH_ASSOC);
+    }
+    
     
 }
