@@ -16,7 +16,9 @@ class Localidad extends BasedeDatos {
 
    //Las propiedades mapean las existentes en la base de datos
    private $idlocalidad;
-   private $nombre;
+   private $pais;
+   private $poblacion;
+   private $direccion;
    private $latitud;
    private $longitud;
    private $num_fields=4;
@@ -25,7 +27,7 @@ class Localidad extends BasedeDatos {
 
 
    function __construct() {
-       $show = ["nombre"];
+       $show = ["pais"];
        $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
        parent::__construct("localidad", "idlocalidad", $fields, $show);
    }
@@ -38,9 +40,9 @@ function getidLocalidad() {
        return $this->idlocalidad;
    }
 
-   function getNombre() {
+   function getPais() {
 
-       return $this->nombre;
+       return $this->pais;
    }
 
    function getLatitud() {
@@ -54,8 +56,25 @@ function getidLocalidad() {
        $this->longitud = $longitud;
    }
 
-      function setNombre($nombre) {
-       $this->nombre = $nombre;
+   function getPoblacion() {
+       return $this->poblacion;
+   }
+
+   function getDireccion() {
+       return $this->direccion;
+   }
+
+   function setPoblacion($poblacion) {
+       $this->poblacion = $poblacion;
+   }
+
+   function setDireccion($direccion) {
+       $this->direccion = $direccion;
+   }
+
+      
+      function setPais($pais) {
+       $this->pais = $pais;
    }
 
    function setLatitud($latitud) {
@@ -92,8 +111,10 @@ function load($id) {
 
        if (!empty($localidad)) {
            $this->idlocalidad = $id;
-           $this->nombre = $localidad['nombre'];
+           $this->pais = $localidad['pais'];
            $this->latitud = $localidad['latitud'];
+           $this->poblacion= $localidad['poblacion'];
+           $this->direccion=$localidad['direccion'];
            $this->longitud = $localidad['longitud'];
        } else {
            throw new Exception("No existe ese registro");
@@ -108,7 +129,9 @@ function delete() {
        if (!empty($this->idlocalidad)) {
            $this->deleteById($this->idlocalidad);
            $this->idlocalidad = null;
-           $this->nombre = null;
+           $this->pais = null;
+           $this->poblacion=null;
+           $this->direccion=null;
            $this->latitud = null;
            $this->longitud=null;
        } else {
@@ -132,7 +155,7 @@ function delete() {
 //$a = new Alumno();
 //$a->load(1);
 
-//$a->nombre="Juan";
+//$a->pais="Juan";
 //$a->save();
 
 //$a->delete();

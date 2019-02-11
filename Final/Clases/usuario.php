@@ -20,9 +20,10 @@ class usuario extends BasedeDatos{
     private $email; //string
     private $pass; //string
     private $nombre; //string
-    private $fechanacimiento; //int
+    private $edad; //int
     private $localidad; //string
     private $foto;
+    private $telefono;
     private $empresa;
     private $nombre_empresa;
     private $num_fields=10;
@@ -60,7 +61,17 @@ class usuario extends BasedeDatos{
         function setnombreUsuario($nombreusuario){
          $this->nombreusuario=$nombreusuario;      
     }
- 
+    
+    
+    function getTelefono() {
+        return $this->telefono;
+    }
+
+    function setTelefono($telefono) {
+        $this->telefono = $telefono;
+    }
+
+     
 
     function getFoto() {
         return $this->foto;
@@ -102,15 +113,15 @@ class usuario extends BasedeDatos{
         $this->nombre=$nombre;
         
     }
-    function getfechanacimiento(){
+    function getedad(){
         
-     return $this->fechanacimiento;   
+     return $this->edad;   
      
     }
     
-      function setfechanacimiento($fechanacimiento){
+      function setedad($edad){
         
-        $this->fechanacimiento=$fechanacimiento;
+        $this->edad=$edad;
         
     }
       
@@ -161,9 +172,10 @@ class usuario extends BasedeDatos{
             $this->nombre = $usuario['nombre'];
            $this->pass = $usuario['pass'];
            $this->email = $usuario['email'];
-           $this->fechanacimiento = $usuario['fechanacimiento'];
+           $this->edad = $usuario['edad'];
            $this->foto = $usuario['foto'];
            $this->empresa = $usuario['empresa'];
+           $this->telefono= $usuario['telefono'];
            $this->nombre_empresa = $usuario['nombre_empresa'];
            $localidad=new Localidad();
            $localidad->load($usuario['idlocalidad']);
@@ -184,7 +196,8 @@ class usuario extends BasedeDatos{
            $this->nombre = null;
            $this->pass = null;
            $this->email = null;
-           $this->fechanacimiento = null;
+           $this->edad = null;
+           $this->telefono = null;
            $this->localidad = null;
            $this->foto = null;
            $this->empresa=null;
