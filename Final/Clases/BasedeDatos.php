@@ -103,7 +103,9 @@ abstract class BasedeDatos {
      * @param int $id
      */
     protected function deleteById($id) {
+      
         try {
+         
             self::$conn->exec("delete from " . $this->table . " where "
                     . $this->idField . "=" . $id);
         } catch (Exception $ex) {

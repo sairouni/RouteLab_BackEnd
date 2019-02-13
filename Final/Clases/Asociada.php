@@ -16,7 +16,7 @@ require_once 'Post.php';
  */
 class Asociada extends BasedeDatos {
    private $idasociada; //int
-    private $localidad; //string
+    private $idlocalidad; //string
     private $idpost; //string
      private $num_fields=3;
     
@@ -33,22 +33,22 @@ class Asociada extends BasedeDatos {
     }
 
 
-    function getlocalidad(): Localidad {
-        return $this->localidad;
+    function getidlocalidad() {
+        return $this->idlocalidad;
     }
 
-    function getpost() : Post {
+    function getidpost()  {
         return $this->idpost;
     }
 
-    function setlocalidad(Localidad $localidad) {
-        $this->localidad = $localidad;
+    function setidlocalidad( $localidad) {
+        $this->idlocalidad = $localidad;
     }
 
-    function setpost(Post $idpost) {
+    function setidpost( $idpost) {
         $this->idpost = $idpost;
     }
-
+     
     
         
     function __get($name) {
@@ -83,8 +83,7 @@ class Asociada extends BasedeDatos {
             $post=new Post();
             $post->load($asociada['idpost']);
             $this->post = $post;
-       } else {
-           throw new Exception("No existe ese registro");
+            $this->asociada =$asociada['asociada'];
        }
    }
    
@@ -94,7 +93,7 @@ class Asociada extends BasedeDatos {
            $this->deleteById($this->idasociada);
            $this->idasociada = null;
            $this->idpost = null;
-           $this->localidad = null;
+           $this->idlocalidad = null;
        } else {
            throw new Exception("No hay registro para borrar");
        }
@@ -105,13 +104,8 @@ class Asociada extends BasedeDatos {
         $asociada = $this->valores();
        unset($asociada['idasociada']);
        
-       $this->localidad->save();
-        $asociada['idlocalidad']=$this->localidad->idlocalidad;
-        unset($asociada['localidad']);
+      
         
-         $this->post->save();
-        $asociada['idpost']=$this->post->idpost;
-        unset($asociada['idpost']);
        if (empty($this->idasociada)) {
            $this->insert($asociada);
            $this->idasociada = self::$conn->lastInsertId();
@@ -119,7 +113,7 @@ class Asociada extends BasedeDatos {
            $this->update($this->idasociada, $asociada);
        }
    }
-    
-    
-    
-}
+       }
+
+   
+       

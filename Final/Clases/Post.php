@@ -67,6 +67,14 @@ class Post extends BasedeDatos {
         $this->descripcion = $descripcion;
     }
 
+        function setidusuario($id){
+        $usuario=new Usuario();
+        $usuario->load($id);
+        $this->usuario=$usuario;
+    }
+    
+    
+    
     function __get($name) {
         $metodo = "get$name";
         if (method_exists($this, $metodo)) {

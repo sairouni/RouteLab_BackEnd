@@ -59,6 +59,13 @@ class Foto extends BasedeDatos {
     function setUrl($url) {
         $this->url = $url;
     }
+    
+        function setidlocalidad($id){
+        $localidad=new Localidad();
+        $localidad->load($id);
+        $this->localidad=$localidad;
+    }
+    
 
             
     function __get($name) {

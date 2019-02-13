@@ -74,5 +74,6 @@ if ($verb == "DELETE") {
         die();
     }
     $objeto->load($id);
+    
     $objeto->delete();
 }

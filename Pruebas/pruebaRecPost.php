@@ -1,19 +1,19 @@
-R<html>
+<html>
     <head>
         <meta charset="UTF-8">
         <title></title>
     </head>
     <body>
         <?php
-        require_once '../Final/Asociada.php';
-        require_once '../Final/localidad.php';
-        require_once '../Final/post.php';
+        require_once '../Final/Rec-Post.php';
+        require_once '../Final/Post.php';
+        require_once '../Final/Recomendaciones.php';
 
 
-        $b = new Asociada();
-        $d = new localidad();
+        $b = new RecAsociada();
+        $d = new Recomendaciones();
         $d->load(1);
-        $b->localidad = $d;
+        $b->recomendaciones = $d;
         $j = new Post();
         $j->load(1);
         $b->post = $j;

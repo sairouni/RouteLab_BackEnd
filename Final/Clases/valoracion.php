@@ -22,11 +22,11 @@ class Valoracion extends BasedeDatos {
         return $this->idvaloracion;
     }
 
-    function getIdusuario() : usuario {
+    function getidusuario() {
         return $this->idusuario;
     }
 
-    function getIdpost(): Post {
+    function getIdpost() {
         return $this->idpost;
     }
     
@@ -34,15 +34,15 @@ class Valoracion extends BasedeDatos {
         return $this->valoracion;
     }
 
-    function setIdusuario(usuario $usuario) {
+    function setidusuario( $usuario) {
         $this->idusuario = $usuario;
     }
 
-    function setIdpost(Post $idpost) {
+    function setidpost($idpost) {
         $this->idpost = $idpost;
     }
     
-    function setValoracion($valoracion) {
+    function setvaloracion($valoracion) {
         $this->valoracion = $valoracion;
     }
 
@@ -96,14 +96,7 @@ class Valoracion extends BasedeDatos {
     function save() { //duda
         $valoracion = $this->valores();
         unset($valoracion['idvaloracion']);
-
-        $this->idusuario->save();
-        $valoracion['idusuario'] = $this->idusuario->idusuario;
-        unset($valoracion['usuario']);
-
-        $this->idpost->save();
-        $valoracion['idpost'] = $this->idpost->idpost;
-        unset($valoracion['post']);
+        
         if (empty($this->idvaloracion)) {
             $this->insert($valoracion);
             $this->idvaloracion = self::$conn->lastInsertId();
