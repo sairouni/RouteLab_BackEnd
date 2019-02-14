@@ -68,8 +68,6 @@ abstract class BasedeDatos {
 
     function getAll($condicion = [], $completo = true) {
         try {
-
-
             $where = "";
             $campos = " * ";
             if (!empty($condicion)) {
@@ -97,6 +95,9 @@ abstract class BasedeDatos {
                 . $this->idField . "=" . $id);
         return $res->fetch(PDO::FETCH_ASSOC);
     }
+    
+    
+    
 
     /**
      * Elimina el registro que tenga el id que le pasamos
@@ -162,4 +163,10 @@ abstract class BasedeDatos {
     abstract function save();
 
     abstract function delete();
+    
+    
+    
+    
+    
+    
 }

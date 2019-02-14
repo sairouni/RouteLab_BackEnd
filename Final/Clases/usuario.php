@@ -223,8 +223,8 @@ class usuario extends BasedeDatos{
        }
    }
    
-        protected function getByNombreusu($nombreusuario) {
-        $res = self::$conn->query("select * from usuario  where nombreusuario ". "=" . $nombreusuario);
+        function getByNombreusu($nombreusuario) {
+        $res = self::$conn->query("select * from usuario  where".$nombreusuario . "=" . $nombreusuario);
         return $res->fetch(PDO::FETCH_ASSOC);
     }
     

@@ -123,8 +123,6 @@ function load($id) {
 
 
 
-
-
 function delete() {
        if (!empty($this->idlocalidad)) {
            $this->deleteById($this->idlocalidad);
@@ -150,6 +148,14 @@ function delete() {
            $this->update($this->idlocalidad, $localidad);
        }
    }
+       function chekIfExist($latitud, $longitud, $direccion) {
+        $res = self::$conn->query("select * from localidad  where latitud = " . $latitud ." and longitud = ".$longitud." and direccion = ".$direccion);
+        return $res->fetch(PDO::FETCH_ASSOC);
+    }
+   
+   
+   
+   
 }
 
 //$a = new Alumno();

@@ -17,7 +17,8 @@ $http = new HTTP();
 
 require_once '../'.$controller . '.php'; //require once lo que te pide el controller
 
-
+if(empty($funcion)){
+    
 if (empty($controller) || !file_exists('../'.$controller . ".php")) {
     $http = new HTTP();
     $http->setHttpHeaders(400, new Response("Bad request"));
@@ -76,4 +77,9 @@ if ($verb == "DELETE") {
     $objeto->load($id);
     
     $objeto->delete();
+}
+}else{
+    
+    require_once '../funcion/'.strtolower($controller). '.php';
+    
 }
