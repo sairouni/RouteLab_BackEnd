@@ -14,7 +14,7 @@ class RecAsociada extends BasedeDatos{
       function __construct() {
         $show=["idRecPost"]; //duda
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-       parent::__construct("Rec-Post","idRecPost", $fields, $show);
+       parent::__construct("RecAsociada","idRecPost", $fields, $show);
         
     }
     
@@ -23,25 +23,25 @@ class RecAsociada extends BasedeDatos{
     }
     
     
-    function getRec() : Recomendaciones{
+    function getRec(){
         return $this->rec;
     }
     
     
-    function getPost(): Post{
+    function getPost(){
         
         return $this->post;
         
     }
     
     
-    function setRec(Recomendaciones $rec){
+    function setRec( $rec){
         
         $this->rec=$rec;
     }
     
      
-    function setPost(Post $post){
+    function setPost( $post){
         $this->post=$post;
     }
     

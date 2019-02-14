@@ -36,19 +36,19 @@ class Foto extends BasedeDatos {
     }
 
 
-    function getlocalidad(): Localidad {
+    function getlocalidad() {
         return $this->localidad;
     }
 
-    function getpost() : Post {
+    function getpost() {
         return $this->idpost;
     }
 
-    function setlocalidad(Localidad $localidad) {
+    function setlocalidad( $localidad) {
         $this->localidad = $localidad;
     }
 
-    function setpost(Post $idpost) {
+    function setpost( $idpost) {
         $this->idpost = $idpost;
     }
 

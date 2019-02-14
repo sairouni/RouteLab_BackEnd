@@ -28,19 +28,19 @@ class Social extends BasedeDatos {
     }
 
 
-    function getIdseguido(): usuario {
+    function getIdseguido() {
         return $this->idseguido;
     }
 
-    function getIdseguidor() : usuario {
+    function getIdseguidor() {
         return $this->idseguidor;
     }
 
-    function setIdseguido(usuario $idseguido) {
+    function setIdseguido( $idseguido) {
         $this->idseguido = $idseguido;
     }
 
-    function setIdseguidor(usuario $idseguidor) {
+    function setIdseguidor( $idseguidor) {
         $this->idseguidor = $idseguidor;
     }
 

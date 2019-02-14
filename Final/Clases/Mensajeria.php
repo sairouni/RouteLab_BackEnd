@@ -29,11 +29,11 @@ class Mensajeria extends BasedeDatos {
         return $this->idmensaje;
     }
 
-    function getEmisor(): Usuario {
+    function getEmisor() {
         return $this->emisor;
     }
 
-    function getReceptor(): Usuario {
+    function getReceptor() {
         return $this->receptor;
     }
 
@@ -49,11 +49,11 @@ class Mensajeria extends BasedeDatos {
         return $this->mensaje;
     }
 
-    function setEmisor(Usuario $idusuario) {
+    function setEmisor( $idusuario) {
         $this->emisor = $idusuario;
     }
 
-    function setReceptor(Usuario $idusuario) {
+    function setReceptor( $idusuario) {
         $this->receptor = $idusuario;
     }
 
