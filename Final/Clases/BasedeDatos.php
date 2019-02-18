@@ -95,18 +95,15 @@ abstract class BasedeDatos {
                 . $this->idField . "=" . $id);
         return $res->fetch(PDO::FETCH_ASSOC);
     }
-    
-    
-    
 
     /**
      * Elimina el registro que tenga el id que le pasamos
      * @param int $id
      */
     protected function deleteById($id) {
-      
+
         try {
-         
+
             self::$conn->exec("delete from " . $this->table . " where "
                     . $this->idField . "=" . $id);
         } catch (Exception $ex) {
@@ -163,10 +160,12 @@ abstract class BasedeDatos {
     abstract function save();
 
     abstract function delete();
-    
-    
-    
-    
-    
-    
+
+    function existe($dato) {
+       
+        $res=$this->getAll($dato);
+        return !empty($res);
+        
+    }
+
 }

@@ -16,6 +16,7 @@ $funcion = filter_input(INPUT_GET, 'funcion');
 $http = new HTTP();
 
 require_once '../'.$controller . '.php'; //require once lo que te pide el controller
+$objeto = new $controller;
 
 if(empty($funcion)){
     
@@ -25,7 +26,6 @@ if (empty($controller) || !file_exists('../'.$controller . ".php")) {
     die();
 }
 
-$objeto = new $controller;
 
 
 //verbo Get

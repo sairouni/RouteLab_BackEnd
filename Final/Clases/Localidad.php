@@ -21,7 +21,7 @@ class Localidad extends BasedeDatos {
    private $direccion;
    private $latitud;
    private $longitud;
-   private $num_fields=4;
+   private $num_fields=6;
 
 
 
@@ -52,10 +52,6 @@ function getidLocalidad() {
        return $this->longitud;
    }
 
-   function setLongitud($longitud) {
-       $this->longitud = $longitud;
-   }
-
    function getPoblacion() {
        return $this->poblacion;
    }
@@ -72,13 +68,16 @@ function getidLocalidad() {
        $this->direccion = $direccion;
    }
 
-      
       function setPais($pais) {
        $this->pais = $pais;
    }
 
    function setLatitud($latitud) {
        $this->latitud = $latitud;
+   }
+
+   function setLongitud($longitud) {
+       $this->longitud = $longitud;
    }
 
 
@@ -148,10 +147,7 @@ function delete() {
            $this->update($this->idlocalidad, $localidad);
        }
    }
-       function chekIfExist($latitud, $longitud, $direccion) {
-        $res = self::$conn->query("select * from localidad  where latitud = " . $latitud ." and longitud = ".$longitud." and direccion = ".$direccion);
-        return $res->fetch(PDO::FETCH_ASSOC);
-    }
+
    
    
    
