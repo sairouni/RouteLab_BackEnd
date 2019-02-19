@@ -40,6 +40,7 @@ try {
 
                 break;
             case "registro":
+                
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonRegistro->email; // gaurdar variable pasada por el json 
 
