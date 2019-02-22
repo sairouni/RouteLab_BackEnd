@@ -82,7 +82,7 @@ abstract class BasedeDatos {
             $st->execute($condicion);
             return $st->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $ex) {
-            echo $ex->message;
+            echo $ex->getMessage();
         }
     }
 
@@ -161,11 +161,30 @@ abstract class BasedeDatos {
 
     abstract function delete();
 
-    function existe($dato) {
-       
+    function existe($dato) { 
         $res=$this->getAll($dato);
         return !empty($res);
         
     }
-
+    
+    function idexiste($body){
+        $aa = $this->getAll($body);
+   
+        if(empty($aa)){
+            
+            return false;
+            
+        }else{
+            
+            return $aa[0][$this->idField];
+            
+        }
+        
+        
+    }
+    
+function __toString() {
+    $a= json_encode($this->valores);
+    return $a;
+}
 }

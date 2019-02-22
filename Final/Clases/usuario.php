@@ -228,5 +228,15 @@ class usuario extends BasedeDatos{
         return $res->fetch(PDO::FETCH_ASSOC);
     }
     
+    public function login($email,$pass){
+        $user=$this->getAll(['email'=>$email,'pass'=>$pass]);
+        if(!empty($user)){
+        return $user ;
+        }else{
+            throw new Exception("Error en el login");
+        }
+        
+    }
+    
     
 }

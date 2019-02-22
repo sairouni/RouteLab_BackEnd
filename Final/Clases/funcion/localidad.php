@@ -19,7 +19,7 @@ try {
                 $latitud = $jsonRegistro->latitud;
                 $longitud = $jsonRegistro->longitud;
 
-                if ($objeto->existe(['latitud' => $latitud]) && $objeto->existe(['longitud' => $longitud])) {
+                if ($objeto->existe(['latitud' => $latitud,'longitud' => $longitud])) {
 
                     $http->setHttpHeaders(601, new Response("la $controller con la $latitud y la $longitud ya existe ", $latitud . " / " . $longitud));
                 } else {

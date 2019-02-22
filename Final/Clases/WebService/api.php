@@ -5,8 +5,10 @@ header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Conte
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 header('Content-type: application/json');
-
+header('Access-Control-Max-Age: 1000');
+header("Access-Control-Allow-Credentials: true");
 require_once 'HTTP.php';
+
 require_once 'Response.php';
 
 $controller = filter_input(INPUT_GET, "controller");
