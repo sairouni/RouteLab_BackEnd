@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-01-2019 a las 10:01:44
--- Versión del servidor: 10.1.26-MariaDB
--- Versión de PHP: 7.1.8
+-- Tiempo de generación: 05-03-2019 a las 12:51:30
+-- Versión del servidor: 10.1.36-MariaDB
+-- Versión de PHP: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -34,6 +34,14 @@ CREATE TABLE `asociada` (
   `idpost` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `asociada`
+--
+
+INSERT INTO `asociada` (`idasociada`, `idlocalidad`, `idpost`) VALUES
+(1, 1, 1),
+(2, 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -43,8 +51,15 @@ CREATE TABLE `asociada` (
 CREATE TABLE `foto` (
   `idpost` int(11) NOT NULL,
   `idlocalidad` int(11) NOT NULL,
-  `urlFoto` varchar(25) NOT NULL
+  `url` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `foto`
+--
+
+INSERT INTO `foto` (`idpost`, `idlocalidad`, `url`) VALUES
+(1, 1, 'c://hola que tal');
 
 -- --------------------------------------------------------
 
@@ -54,17 +69,23 @@ CREATE TABLE `foto` (
 
 CREATE TABLE `localidad` (
   `idlocalidad` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `latitud` float NOT NULL,
-  `longitud` float NOT NULL
+  `pais` varchar(50) NOT NULL,
+  `poblacion` varchar(70) NOT NULL,
+  `direccion` varchar(300) NOT NULL,
+  `latitud` varchar(30) NOT NULL,
+  `longitud` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `localidad`
 --
 
-INSERT INTO `localidad` (`idlocalidad`, `nombre`, `latitud`, `longitud`) VALUES
-(1, 'Barcelona', 111, 111);
+INSERT INTO `localidad` (`idlocalidad`, `pais`, `poblacion`, `direccion`, `latitud`, `longitud`) VALUES
+(1, 'Barcelona', '', '', '41', '2'),
+(2, 'Barcelona', '', '', '41.390205', '2.154007'),
+(3, 'España', 'Madrid', 'calle los santajos 2015', '45878', '7878'),
+(4, 'Barcelona', 'MMA', 'holAQUE', '431', '2'),
+(5, 'Barcelona', 'MMA', 'holAQUE', '431', '4848482');
 
 -- --------------------------------------------------------
 
@@ -86,9 +107,8 @@ CREATE TABLE `mensajeria` (
 --
 
 INSERT INTO `mensajeria` (`idmensajeria`, `idreceptor`, `idemisor`, `fecha`, `hora`, `mensaje`) VALUES
-(1, 2, 1, '2018-12-13', '10:30:00', 'hola'),
-(2, 2, 1, '2018-12-13', '10:30:00', 'Send Nudes Pls'),
-(3, 2, 1, '2018-12-13', '10:30:00', 'Hola que tal');
+(1, 4, 1, '2018-12-13', '10:30:00', 'SHola que tal'),
+(2, 4, 1, '2018-12-13', '10:30:00', 'SHola vikcbkaiovbeiobv tal');
 
 -- --------------------------------------------------------
 
@@ -109,17 +129,16 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`idpost`, `titulo`, `descripcion`, `tipo`, `idusuario`) VALUES
-(1, 'Prueba', 'esta es una prueba de descripcion', 'ruta', 1),
-(2, 'Hola', 'Muy Buenas', 'ruta', 2),
-(3, 'Hola', 'Muy Buenas', 'ruta', 2);
+(1, 'La travesia en Argentina', ' en esta travesia seras bien chido', 'ruta', 4),
+(3, 'Esta ruta mola supongo', 'Cuidado con la mega ruta', 'ruta', 5);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `rec-post`
+-- Estructura de tabla para la tabla `recasociada`
 --
 
-CREATE TABLE `rec-post` (
+CREATE TABLE `recasociada` (
   `idrecpost` int(11) NOT NULL,
   `idpost` int(11) NOT NULL,
   `idrec` int(11) NOT NULL
@@ -137,6 +156,13 @@ CREATE TABLE `recomendaciones` (
   `descripcion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `recomendaciones`
+--
+
+INSERT INTO `recomendaciones` (`idrec`, `icono`, `descripcion`) VALUES
+(1, 'c://mmyserver/icono/correr.jpg', 'estae icono sirve para las rutas donde vas a correr ');
+
 -- --------------------------------------------------------
 
 --
@@ -149,13 +175,6 @@ CREATE TABLE `social` (
   `idseguidor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `social`
---
-
-INSERT INTO `social` (`idsocial`, `idseguido`, `idseguidor`) VALUES
-(1, 1, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -165,24 +184,33 @@ INSERT INTO `social` (`idsocial`, `idseguido`, `idseguidor`) VALUES
 CREATE TABLE `usuario` (
   `idusuario` int(11) NOT NULL,
   `nombreusuario` varchar(20) NOT NULL,
+  `oauth_provider` varchar(15) DEFAULT NULL,
+  `oauth_uid` varchar(25) DEFAULT NULL,
   `nombre` varchar(50) NOT NULL,
   `pass` varchar(20) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `fechanacimiento` date NOT NULL,
+  `edad` int(11) NOT NULL,
+  `telefono` varchar(16) NOT NULL,
   `idlocalidad` int(10) NOT NULL,
   `admin` tinyint(1) NOT NULL,
   `foto` varchar(255) NOT NULL,
-  `empresa` tinyint(4) NOT NULL,
-  `nombre_empresa` varchar(255) NOT NULL
+  `empresa` tinyint(1) NOT NULL,
+  `nombre_empresa` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`idusuario`, `nombreusuario`, `nombre`, `pass`, `email`, `fechanacimiento`, `idlocalidad`, `admin`, `foto`, `empresa`, `nombre_empresa`) VALUES
-(1, 'marc', 'marc', 'marc', 'marc@marc.com', '1998-07-04', 1, 0, '', 0, ''),
-(2, 'isma', 'isma', 'isma', 'isma@isma.com', '1997-07-10', 1, 0, '', 0, '');
+INSERT INTO `usuario` (`idusuario`, `nombreusuario`, `oauth_provider`, `oauth_uid`, `nombre`, `pass`, `email`, `edad`, `telefono`, `idlocalidad`, `admin`, `foto`, `empresa`, `nombre_empresa`) VALUES
+(1, 'ismael campeador', NULL, NULL, 'ismael', 'isma12', 'ismael@gmail,com', 19971204, '0', 1, 1, 'url:C//feneuffe', 1, 'cacatua'),
+(4, 'marc_elcampeador', NULL, NULL, 'marquitus', 'marcos', 'marc@gmail.com', 19200210, '0', 1, 0, 'jfiejfef', 1, 'Stucom'),
+(5, 'ury95_elcampeador', NULL, NULL, 'oriol', '1234', 'elamo@gmail,com', 19950811, '0', 1, 0, 'url:C//feneuffe', 1, 'elamoSL'),
+(7, 'Vecchio', NULL, NULL, 'Gianluca', '12345678', 'gianlucalvs@gmail.com', 0, '0', 1, 0, '/img.jpg', 1, 'Routelab'),
+(9, 'Vecchio', NULL, NULL, 'Gianluca', '12345678', 'gianlucalvs@gmail.com', 0, '0', 1, 0, '/img.jpg', 1, 'Routelab'),
+(10, 'ismatonto', NULL, NULL, 'ismatonto', '123456789', 'ismatonto@gmail.com', 0, '0', 1, 0, '/img.jpg', 1, 'Routelab'),
+(11, 'ury95_elcampeador', NULL, NULL, 'oriol', '1234', 'elamo@gmail,com', 22, '632589658', 3, 0, 'url:C//feneuffe', 1, ''),
+(14, 'gian', NULL, NULL, 'gian', '12345678', 'ismatonto3933823987@gmail.com', 21, '3232323232', 3, 0, '/img.jpg', 1, '');
 
 -- --------------------------------------------------------
 
@@ -191,7 +219,6 @@ INSERT INTO `usuario` (`idusuario`, `nombreusuario`, `nombre`, `pass`, `email`, 
 --
 
 CREATE TABLE `valoracion` (
-  `idvaloracion` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `idpost` int(11) NOT NULL,
   `valoracion` int(11) NOT NULL
@@ -201,10 +228,10 @@ CREATE TABLE `valoracion` (
 -- Volcado de datos para la tabla `valoracion`
 --
 
-INSERT INTO `valoracion` (`idvaloracion`, `idusuario`, `idpost`, `valoracion`) VALUES
-(1, 1, 1, 5),
-(2, 2, 1, 9),
-(3, 2, 3, 4);
+INSERT INTO `valoracion` (`idusuario`, `idpost`, `valoracion`) VALUES
+(1, 1, 5),
+(4, 1, 7),
+(5, 1, 8);
 
 --
 -- Índices para tablas volcadas
@@ -247,9 +274,9 @@ ALTER TABLE `post`
   ADD KEY `fkusuarioP` (`idusuario`);
 
 --
--- Indices de la tabla `rec-post`
+-- Indices de la tabla `recasociada`
 --
-ALTER TABLE `rec-post`
+ALTER TABLE `recasociada`
   ADD PRIMARY KEY (`idrecpost`),
   ADD KEY `fkpostR` (`idpost`),
   ADD KEY `fkrecR` (`idrec`);
@@ -279,9 +306,8 @@ ALTER TABLE `usuario`
 -- Indices de la tabla `valoracion`
 --
 ALTER TABLE `valoracion`
-  ADD PRIMARY KEY (`idvaloracion`),
-  ADD KEY `fkpostV` (`idpost`),
-  ADD KEY `fkusuarioV` (`idusuario`);
+  ADD PRIMARY KEY (`idusuario`,`idpost`),
+  ADD KEY `fkpostV` (`idpost`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -291,47 +317,50 @@ ALTER TABLE `valoracion`
 -- AUTO_INCREMENT de la tabla `asociada`
 --
 ALTER TABLE `asociada`
-  MODIFY `idasociada` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idasociada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT de la tabla `localidad`
 --
 ALTER TABLE `localidad`
-  MODIFY `idlocalidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idlocalidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT de la tabla `mensajeria`
 --
 ALTER TABLE `mensajeria`
-  MODIFY `idmensajeria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idmensajeria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT de la tabla `post`
 --
 ALTER TABLE `post`
   MODIFY `idpost` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT de la tabla `rec-post`
+-- AUTO_INCREMENT de la tabla `recasociada`
 --
-ALTER TABLE `rec-post`
+ALTER TABLE `recasociada`
   MODIFY `idrecpost` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `recomendaciones`
 --
 ALTER TABLE `recomendaciones`
-  MODIFY `idrec` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idrec` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT de la tabla `social`
 --
 ALTER TABLE `social`
-  MODIFY `idsocial` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idsocial` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `valoracion`
---
-ALTER TABLE `valoracion`
-  MODIFY `idvaloracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 --
 -- Restricciones para tablas volcadas
 --
@@ -364,9 +393,9 @@ ALTER TABLE `post`
   ADD CONSTRAINT `fkusuarioP` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`idusuario`);
 
 --
--- Filtros para la tabla `rec-post`
+-- Filtros para la tabla `recasociada`
 --
-ALTER TABLE `rec-post`
+ALTER TABLE `recasociada`
   ADD CONSTRAINT `fkpostR` FOREIGN KEY (`idpost`) REFERENCES `post` (`idpost`),
   ADD CONSTRAINT `fkrecR` FOREIGN KEY (`idrec`) REFERENCES `recomendaciones` (`idrec`);
 
