@@ -11,9 +11,9 @@ define('DB_NAME', 'MySQL_Database_Name');
 define('DB_USER_TBL', 'users');
 
 // Google API configuration
-define('GOOGLE_CLIENT_ID', '307596815036-s7ju0ki261cec6a5d1jalq1lef5u7mbk.apps.googleusercontent.com ');
-define('GOOGLE_CLIENT_SECRET', '8ARVMVndw7mMWsThs45xCzyj');
-define('GOOGLE_REDIRECT_URL', 'http://localhost:4200/user');
+define('GOOGLE_CLIENT_ID', '');
+define('GOOGLE_CLIENT_SECRET', '');
+define('GOOGLE_REDIRECT_URL', '');
 
 // Start session
 if(!session_id()){
