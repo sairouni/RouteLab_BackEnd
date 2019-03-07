@@ -169,7 +169,6 @@ abstract class BasedeDatos {
     
     function idexiste($body){
         $aa = $this->getAll($body);
-   
         if(empty($aa)){
             
             return false;
