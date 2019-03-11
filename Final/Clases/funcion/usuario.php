@@ -89,11 +89,25 @@ try {
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonlogin->email;
                 $pass = $jsonlogin->pass;
-
+                
                 $datos = $objeto->login($email, $pass);
 
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
                 break;
+            
+            
+            
+               case "logout":
+                $body = file_get_contents('php://input');
+                $jsonlogout = json_decode($body);
+                $objeto->logout($jsonlogout->id);
+                break;
+            
+            
+            
+            
+            
+            
         } //switch funcin
     }//POST 
 } catch (Exception $ex) {

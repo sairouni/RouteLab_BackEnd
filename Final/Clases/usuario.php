@@ -26,7 +26,8 @@ class usuario extends BasedeDatos{
     private $telefono;
     private $empresa;
     private $nombre_empresa;
-    private $num_fields=10;
+    private $token;
+    private $num_fields=12;
     
    function __construct() {
         $show=["nombreusuario"];
@@ -143,7 +144,16 @@ class usuario extends BasedeDatos{
         $this->localidad=$localidad;
     }
     
-    
+   
+    function getToken() {
+        return $this->token;
+    }
+
+    function setToken($token) {
+        $this->token = $token;
+    }
+
+        
     function __get($name) {
        $metodo = "get$name";
        if (method_exists($this, $metodo)) {
@@ -177,9 +187,11 @@ class usuario extends BasedeDatos{
            $this->empresa = $usuario['empresa'];
            $this->telefono= $usuario['telefono'];
            $this->nombre_empresa = $usuario['nombre_empresa'];
+           $this->token= $usuario['token'];
            $localidad=new Localidad();
            $localidad->load($usuario['idlocalidad']);
            $this->localidad = $localidad;
+          
            
        } else {
            throw new Exception("No existe ese registro");
@@ -201,6 +213,7 @@ class usuario extends BasedeDatos{
            $this->localidad = null;
            $this->foto = null;
            $this->empresa=null;
+           $this->token=null;
            $this->nombre_empresa=null;
        } else {
            throw new Exception("No hay registro para borrar");
@@ -228,15 +241,39 @@ class usuario extends BasedeDatos{
         return $res->fetch(PDO::FETCH_ASSOC);
     }
     
-    public function login($email,$pass){
-        $user=$this->getAll(['email'=>$email,'pass'=>$pass]);
-        if(!empty($user)){
-        return $user ;
-        }else{
-            throw new Exception("Error en el login");
-        }
+
+        public function login($email, $pass)
+    {
+       
+            $user = $this->getAll(['email' => $email, 'pass' => $pass]);
+            if (!empty($user)) {
+                $usuario = new usuario();
+                $usuario->load($user[0]["idusuario"]);
+                $usuario->setToken(bin2hex(random_bytes(50)));
+                $usuario->save();
+                
+              //  $user = $this->getAll(['email' => $email, 'pass' => $pass]);
+                
+                return $usuario;
+            } else {
+                throw new Exception("Error Login Datos incorrectos");
+            }
+      
         
     }
+   
+    
+        public function logout($id)
+    {
+        if (!empty($id)) {
+            $user = new User();
+            $user->load($id);
+            $user->setToken("");
+            $user->save();
+        }
+    }
+  
+
     
     
 }

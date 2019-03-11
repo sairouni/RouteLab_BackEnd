@@ -138,7 +138,7 @@ abstract class BasedeDatos {
         }
     }
 
-    protected function valores() {
+     function valores() {
 
         $valores = array_map(function($v) {
             return $this->$v;
@@ -183,7 +183,7 @@ abstract class BasedeDatos {
     }
     
 function __toString() {
-    $a= json_encode($this->valores);
+    $a= json_encode($this->valores());
     return $a;
 }
 }
