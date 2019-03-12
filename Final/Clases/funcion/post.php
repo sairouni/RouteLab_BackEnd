@@ -11,8 +11,7 @@ try {
                  
                  $datos = $objeto->media($id);
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
-                break;
-               
+                break;      
         }
     } else {
         

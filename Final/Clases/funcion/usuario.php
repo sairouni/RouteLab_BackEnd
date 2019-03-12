@@ -28,6 +28,14 @@ try {
 
 
                 break;
+
+            case "media":
+                $jsonlogin = json_decode(file_get_contents("php://input"), false);
+                $id = $jsonlogin->idvalorado;
+
+                $datos = $objeto->media($id);
+                $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
+                break;
         }
     } else {
         
@@ -56,9 +64,8 @@ try {
                     }
                     $localidad->save();
                 } else {
-                   
+
                     $localidad->load($datos);
-                   
                 }
 
 
@@ -68,18 +75,17 @@ try {
                 } else {
 
                     foreach ($jsonRegistro as $c => $v) {
-                   
+
                         if ($c != "localidad") {
                             $objeto->$c = $v;
                         } else {
-                            
-                             $objeto->localidad=$localidad;
-                           
+
+                            $objeto->localidad = $localidad;
                         }
                     }
-             
+
                     $objeto->save();
-                    
+
                     $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
                 }
 
@@ -89,26 +95,20 @@ try {
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonlogin->email;
                 $pass = $jsonlogin->pass;
-                
+
                 $datos = $objeto->login($email, $pass);
 
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
                 break;
-            
-            
-            
-               case "logout":
+
+
+
+            case "logout":
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
                 $datos = $objeto->logout($json->id);
                 $http->setHTTPHeaders(200, new Response("This: ", $datos));
                 break;
-            
-            
-            
-            
-            
-            
         } //switch funcin
     }//POST 
 } catch (Exception $ex) {
