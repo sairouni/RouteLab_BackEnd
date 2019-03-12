@@ -99,8 +99,9 @@ try {
             
                case "logout":
                 $body = file_get_contents('php://input');
-                $jsonlogout = json_decode($body);
-                $objeto->logout($jsonlogout->id);
+                $json = json_decode($body);
+                $datos = $objeto->logout($json->id);
+                $http->setHTTPHeaders(200, new Response("This: ", $datos));
                 break;
             
             

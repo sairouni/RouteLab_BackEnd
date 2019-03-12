@@ -15,7 +15,7 @@ require_once 'valoracion.php';
  * @author isma_
  */
 class Post extends BasedeDatos {
-
+    
     //Las propiedades mapean las existentes en la base de datos
     private $idpost;
     private $titulo;
@@ -72,7 +72,6 @@ class Post extends BasedeDatos {
         $usuario->load($id);
         $this->usuario=$usuario;
     }
-    
     
     
     function __get($name) {
@@ -158,6 +157,19 @@ class Post extends BasedeDatos {
    
     
     //funcion que devulve todos los POst
+function savePost($json)
+{
+    $object = new Post();
+    foreach ($json as $item => $value) {
+        if ($item == 'usuario') {
+            $object->setidusuario($value);
+        } else {
+            $object->$item = $value;
+        }
+    }
+    return $object;
+
+}
 
 
 }

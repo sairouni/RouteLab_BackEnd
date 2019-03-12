@@ -263,13 +263,20 @@ class usuario extends BasedeDatos{
     }
    
     
-        public function logout($id)
+  public function logout($id)
     {
-        if (!empty($id)) {
-            $user = new User();
-            $user->load($id);
-            $user->setToken("");
-            $user->save();
+        try {
+            if (!empty($id)) {
+                $user = new usuario();
+                $user->load($id);
+                $user->setToken("");
+                $user->save();
+                return $id;
+            } else {
+                return 0;
+            }
+        } catch (Exception $ex) {
+            return -1;
         }
     }
   

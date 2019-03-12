@@ -33,7 +33,12 @@ try {
 
 
                 break;
+                
+                case "Post":
+                $objeto = savePost($json);
+                break;
         }
+            
     }
 } catch (Exception $ex) {
     
