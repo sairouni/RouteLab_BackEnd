@@ -143,9 +143,9 @@ class Post extends BasedeDatos {
      * se recorre el array. Devuelve el valor dividido por la cantidad de 
      * valoraciones totales que ha tenido el post.
      */
-    function media() {
+    function media($id) {
         $b = new Valoracion();
-        $valores = $b->getValoracionByPost($this->idpost);
+        $valores = $b->getValoracionByPost($id);
         $med = 0;
         foreach ($valores as $valor) {
             

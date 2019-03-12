@@ -4,8 +4,15 @@ try {
 
     if ($verb == 'GET') {
 
-        switch (strlower($funcion)) {
-            
+        switch (strtolower($funcion)) {
+             case "media":
+              $jsonlogin = json_decode(file_get_contents("php://input"), false);
+                $id = $jsonlogin->idpost;
+                 
+                 $datos = $objeto->media($id);
+                $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
+                break;
+               
         }
     } else {
         
