@@ -189,4 +189,17 @@ function __toString() {
     $a= json_encode($this->valores());
     return $a;
 }
+function buscador($aKeyword){
+      $query ="SELECT * FROM cursos WHERE lenguaje like '%" . $aKeyword[0] . "%' OR descripcion like '%" . $aKeyword[0] . "%'";
+      
+     for($i = 1; $i < count($aKeyword); $i++) {
+        if(!empty($aKeyword[$i])) {
+            $query .= " OR descripcion like '%" . $aKeyword[$i] . "%'";
+        }
+     }
+
+}
+
+
+
 }
