@@ -192,6 +192,8 @@ class usuario extends BasedeDatos{
            $localidad=new Localidad();
            $localidad->load($usuario['idlocalidad']);
            $this->localidad = $localidad;
+        
+           
           
            
        } else {
@@ -237,10 +239,16 @@ class usuario extends BasedeDatos{
        }
    }
    
-        function getByNombreusu($nombreusuario) {
-        $res = self::$conn->query("select * from usuario  where".$nombreusuario . "=" . $nombreusuario);
-        return $res->fetch(PDO::FETCH_ASSOC);
+       public function getbyToken($id)
+    {
+        $user = $this->getAll(['token' => $id]);
+        if (!empty($user)) {
+            return $user;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
     }
+
     
 
         public function login($email, $pass)
@@ -248,6 +256,7 @@ class usuario extends BasedeDatos{
        
             $user = $this->getAll(['email' => $email, 'pass' => $pass]);
             if (!empty($user)) {
+  
                 $usuario = new usuario();
                 $usuario->load($user[0]["idusuario"]);
                 $usuario->setToken(bin2hex(random_bytes(50)));
@@ -292,7 +301,6 @@ class usuario extends BasedeDatos{
         return $med/count($valores);
         
     }
-
     
     
 }

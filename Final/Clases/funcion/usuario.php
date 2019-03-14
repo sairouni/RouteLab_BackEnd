@@ -15,9 +15,6 @@ try {
     if ($verb == 'GET') {
 
         switch (strtolower($funcion)) {
-
-
-
             case "existe":
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonlogin->email;
@@ -35,6 +32,10 @@ try {
 
                 $datos = $objeto->media($id);
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
+                break;
+            case "gettoken":             
+               $datos = $objeto->getbyToken($id);
+                $http->setHTTPHeaders(200, new Response("Datos:", $datos));
                 break;
         }
     } else {
@@ -95,6 +96,7 @@ try {
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonlogin->email;
                 $pass = $jsonlogin->pass;
+               
 
                 $datos = $objeto->login($email, $pass);
 
@@ -106,7 +108,7 @@ try {
             case "logout":
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
-                $datos = $objeto->logout($json->id);
+                $datos = $objeto->logout($json->idusuario);
                 $http->setHTTPHeaders(200, new Response("This: ", $datos));
                 break;
         } //switch funcin

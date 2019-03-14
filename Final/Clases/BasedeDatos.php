@@ -137,11 +137,15 @@ abstract class BasedeDatos {
             echo $ex->getMessage();
         }
     }
-
+    
      function valores() {
 
         $valores = array_map(function($v) {
+            if (gettype($this->$v)=="object"){
+                return (string)$this->$v;
+            }else {
             return $this->$v;
+            }
         }, $this->fields);
         return array_combine($this->fields, $valores);
     }
@@ -178,7 +182,6 @@ abstract class BasedeDatos {
             return $aa[0][$this->idField];
             
         }
-        
         
     }
     

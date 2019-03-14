@@ -155,8 +155,7 @@ class Post extends BasedeDatos {
         
     }
    
-    
-    //funcion que devulve todos los POst
+
 function savePost($json)
 {
     $object = new Post();
@@ -170,7 +169,6 @@ function savePost($json)
     return $object;
 
 }
-
 
 }
 
