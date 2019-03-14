@@ -33,9 +33,64 @@ try {
                 $datos = $objeto->media($id);
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
                 break;
-            case "gettoken":             
-               $datos = $objeto->getbyToken($id);
+            case "gettoken":
+                $datos = $objeto->getbyToken($id);
                 $http->setHTTPHeaders(200, new Response("Datos:", $datos));
+                break;
+        }
+    } else {
+        
+    }
+
+    if ($verb == 'PUT') {
+        // Pasar el id a la funcion "edit", si no se le pasa id devolvera una respuesta incorrecta
+        switch (strtolower($funcion)) {
+            case "edit":
+                $objeto->load($id);
+                if (empty($id)) {
+                    $http->setHttpHeaders(400, new Response("Bad request"));
+                    die();
+                }
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                $email = $jsonRegistro->email;
+                $localidad = new Localidad();
+                $pais = $jsonRegistro->localidad->pais;
+                $poblacion = $jsonRegistro->localidad->poblacion;
+                $direccion = $jsonRegistro->localidad->direccion;
+                $latitud = $jsonRegistro->localidad->latitud;
+                $longitud = $jsonRegistro->localidad->longitud;
+
+                $datos = $localidad->idexiste(['latitud' => $latitud, 'longitud' => $longitud]);
+                if ($datos == false) {
+                    // Registrar localidad
+                    foreach ($jsonRegistro->localidad as $c => $v) {
+                        //$c=="idlocalidad"
+                        $localidad->$c = $v;
+                    }
+                    $localidad->save();
+                } else {
+
+                    $localidad->load($datos);
+                }
+
+
+                if ($objeto->existe(['email' => $email])) {
+                    //cargamos el objeto usuario llamammos a la funcion y le decimos que el email que nos pasa tiene que ser igual al email de la base de datos 
+                    $http->setHttpHeaders(600, new Response("El $controller con el $email esta registrado", $email));
+                } else {
+                    foreach ($jsonRegistro as $c => $v) {
+                        if ($c != "localidad") {
+                            $objeto->$c = $v;
+                        } else {
+
+                            $objeto->localidad = $localidad;
+                        }
+                    }
+                    echo "hola";
+                    $objeto->save();
+
+                    $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
+                }
                 break;
         }
     } else {
@@ -96,7 +151,7 @@ try {
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonlogin->email;
                 $pass = $jsonlogin->pass;
-               
+
 
                 $datos = $objeto->login($email, $pass);
 
