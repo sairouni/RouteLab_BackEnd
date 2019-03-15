@@ -37,7 +37,7 @@ if ($verb == "GET") {
         $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
     } else {
         $objeto->load($id);
-        $http->setHttpHeaders(200, new Response("Lista $controller", $objeto->serialize()));
+         $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
     }
 }
 
@@ -59,7 +59,7 @@ if ($verb == "POST") {
 if ($verb == "PUT") {
     if (empty($id)) {
         $http->setHttpHeaders(400, new Response("Bad request"));
-        die();
+       
     }
     $objeto->load($id);
     $raw = file_get_contents("php://input");

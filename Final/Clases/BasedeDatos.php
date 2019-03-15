@@ -90,7 +90,7 @@ abstract class BasedeDatos {
      * Esta función nos devuelve el elemento de la tabla que tenga este id
      * @param int $id El id de la fila
      */
-    protected function getById($id) {
+     function getById($id) {
         $res = self::$conn->query("select * from " . $this->table . " where "
                 . $this->idField . "=" . $id);
         return $res->fetch(PDO::FETCH_ASSOC);
@@ -188,16 +188,6 @@ abstract class BasedeDatos {
 function __toString() {
     $a= json_encode($this->valores());
     return $a;
-}
-function buscador($aKeyword){
-      $query ="SELECT * FROM cursos WHERE lenguaje like '%" . $aKeyword[0] . "%' OR descripcion like '%" . $aKeyword[0] . "%'";
-      
-     for($i = 1; $i < count($aKeyword); $i++) {
-        if(!empty($aKeyword[$i])) {
-            $query .= " OR descripcion like '%" . $aKeyword[$i] . "%'";
-        }
-     }
-
 }
 
 
