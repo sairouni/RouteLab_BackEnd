@@ -73,10 +73,23 @@ try {
                     $localidad->load($datos);
                 }
 
+                
+                if ($objeto->idexiste(['email' => $email]) == $id) {
+                    foreach ($jsonRegistro as $c => $v) {
+                        if ($c != "localidad") {
+                            $objeto->$c = $v;
+                        } else {
 
-                if ($objeto->existe(['email' => $email])) {
-                    //cargamos el objeto usuario llamammos a la funcion y le decimos que el email que nos pasa tiene que ser igual al email de la base de datos 
-                    $http->setHttpHeaders(600, new Response("El $controller con el $email esta registrado", $email));
+                            $objeto->localidad = $localidad;
+                        }
+                    }
+                    $objeto->save();
+
+                    $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
+                    $http->setHttpHeaders(600, new Response("El $controller con el email $email es tuyo", $email));
+                }
+                else if ($objeto->existe(['email' => $email])) {
+                    $http->setHttpHeaders(600, new Response("El $controller con el email $email esta registrado", $email));
                 } else {
                     foreach ($jsonRegistro as $c => $v) {
                         if ($c != "localidad") {
@@ -86,7 +99,6 @@ try {
                             $objeto->localidad = $localidad;
                         }
                     }
-                    echo "hola";
                     $objeto->save();
 
                     $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
