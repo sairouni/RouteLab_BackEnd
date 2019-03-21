@@ -18,6 +18,10 @@ try {
                 $datos= $objeto->media($id);
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
                 break;      
+            case "postid":
+                $datos = $objeto->getbyIdPost($id);
+                $http->setHTTPHeaders(200, new Response("Datos:", $datos));
+                break;
         }
     } else {
         

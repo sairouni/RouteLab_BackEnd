@@ -170,6 +170,15 @@ function savePost($json)
 
 }
 
+public function getbyIdPost($id) {
+        $post = $this->getAll(['idpost' => $id]);
+        if (!empty($post)) {
+            return $post;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
+
 }
 
 //$a = new Alumno();
