@@ -22,7 +22,9 @@ class Post extends BasedeDatos {
     private $descripcion;
     private $usuario;
     private $tipo;
-    private $num_fields = 5;
+    private $imagen;
+    private $idvaloracion;
+    private $num_fields = 7;
 
     function __construct() {
         $show = ["titulo"];
@@ -46,9 +48,21 @@ class Post extends BasedeDatos {
     function getUsuario(): Usuario {
         return $this->usuario;
     }
+    
+    function getValoracion(): Valoracion {
+        return $this->idvaloracion;
+    }
+    
+    function getImagen() {
+        return $this->imagen;
+    }
 
     function setUsuario(Usuario $usuario) {
         $this->usuario = $usuario;
+    }
+    
+    function setValoracion(Valoracion $idvaloracion) {
+        $this->idvaloracion = $idvaloracion;
     }
 
     function setTitulo($titulo) {
@@ -71,6 +85,16 @@ class Post extends BasedeDatos {
         $usuario=new Usuario();
         $usuario->load($id);
         $this->usuario=$usuario;
+    }
+    
+    function setidvaloracion($id){
+        $usuario=new Valoracion();
+        $usuario->load($id);
+        $this->idvaloracion=$valoracion;
+    }
+    
+    function setImagen($imagen) {
+        $this->imagen = $imagen;
     }
     
     
@@ -103,6 +127,10 @@ class Post extends BasedeDatos {
             $usuario = new Usuario();
             $usuario->load($post['idusuario']);
             $this->usuario = $usuario;
+            $valoracion = new Valoracion();
+            $valoracion->load($post['idvaloracion']);
+            $this->idvaloracion = $valoracion;
+            $this->imagen = $post['imagen'];
         } else {
             throw new Exception("No existe ese registro");
         }
@@ -115,6 +143,8 @@ class Post extends BasedeDatos {
             $this->titulo = null;
             $this->descripcion = null;
             $this->usuario = null;
+            $this->idvaloracion = null;
+            $this->imagen = null;
             $this->tipo = null;
         } else {
             throw new Exception("No hay registro para borrar");

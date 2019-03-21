@@ -1,4 +1,5 @@
 <?php
+
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
@@ -11,13 +12,15 @@ try {
     if ($verb == 'GET') {
 
         switch (strtolower($funcion)) {
-             case "media":
-              $jsonlogin = json_decode(file_get_contents("php://input"), false);
-               $id = $jsonlogin->idpost;
-                 
-                $datos= $objeto->media($id);
+            case "media":
+                $jsonlogin = json_decode(file_get_contents("php://input"), false);
+                $id = $jsonlogin->idpost;
+                
+                $datos2 = $objeto->getbyIdPost($id);
+                $datos = $objeto->media($id);
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
-                break;      
+                $http->setHTTPHeaders(200, new Response("Post buscado", $datos2));
+                break;
             case "postid":
                 $datos = $objeto->getbyIdPost($id);
                 $http->setHTTPHeaders(200, new Response("Datos:", $datos));
@@ -29,11 +32,10 @@ try {
 
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
-                case "Post":
+            case "Post":
                 $objeto = savePost($json);
                 break;
         }
-            
     }
 } catch (Exception $ex) {
     
