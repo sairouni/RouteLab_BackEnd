@@ -1,7 +1,7 @@
 <?php
-require_once 'BasedeDatos.php';
+require_once 'basededatos.php';
 require_once 'Recomendaciones.php';
-require_once 'Post.php';
+require_once 'post.php';
 
 class RecAsociada extends BasedeDatos{
     

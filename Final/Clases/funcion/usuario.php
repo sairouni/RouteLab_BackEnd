@@ -7,7 +7,7 @@ header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 header('Content-type: application/json');
 header('Access-Control-Max-Age: 1000');
 header("Access-Control-Allow-Credentials: true");
-require_once '../Localidad.php';
+require_once '../localidad.php';
 
 
 try {
@@ -15,16 +15,6 @@ try {
     if ($verb == 'GET') {
 
         switch (strtolower($funcion)) {
-            case "existe":
-                $jsonlogin = json_decode(file_get_contents("php://input"), false);
-                $email = $jsonlogin->email;
-
-
-                $datos = $objeto->idexiste(['email' => $email]);
-                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
-
-
-                break;
 
             case "media":
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
@@ -108,10 +98,15 @@ try {
     } else {
         
     }
-
     if ($verb == 'POST') {
-
         switch (strtolower($funcion)) {
+            case "buscador":
+                   $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                    
+                $datos = $objeto->busc([$jsonRegistro]);
+                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));             
+                
+                break;
             case "registro":
 
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
@@ -168,6 +163,15 @@ try {
                 $datos = $objeto->login($email, $pass);
 
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+                break;
+         
+               case "existe":
+                $jsonlogin = json_decode(file_get_contents("php://input"), false);
+                $email = $jsonlogin->email;
+                $datos = $objeto->existeft(['email' => $email]);
+                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+
+
                 break;
 
 

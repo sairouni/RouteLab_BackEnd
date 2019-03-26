@@ -1,8 +1,8 @@
 <?php
 
-require_once 'BasedeDatos.php';
+require_once 'basededatos.php';
 require_once 'usuario.php';
-require_once 'Post.php';
+require_once 'post.php';
 
 class Valoracion extends BasedeDatos {
 

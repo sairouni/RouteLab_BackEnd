@@ -1,6 +1,6 @@
 <?php
 
-require_once 'BasedeDatos.php';
+require_once 'basededatos.php';
 require_once 'usuario.php';
 
 /**

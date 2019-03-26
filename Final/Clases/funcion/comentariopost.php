@@ -8,7 +8,7 @@ header('Content-type: application/json');
 header('Access-Control-Max-Age: 1000');
 header("Access-Control-Allow-Credentials: true");
 require_once '../usuario.php';
-require_once '../Post.php';
+require_once '../post.php';
 try {
 
     if ($verb == 'POST') {

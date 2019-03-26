@@ -138,6 +138,20 @@ abstract class BasedeDatos {
         }
     }
     
+    function buscador($valores){
+         try {
+        $campos = join(",", array_keys($valores));
+       $parametros = ":" . join(",:", array_keys($valores));
+      $raw_results = mysql_query("SELECT * FROM". $this->table .
+            "WHERE (".$campos." LIKE '%".$query."%')") or die(mysql_error());
+          $st = self::$conn->prepare($raw_results);
+            $st->execute($valores);
+     } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    
+}
+    
      function valores() {
 
         $valores = array_map(function($v) {
@@ -154,6 +168,11 @@ abstract class BasedeDatos {
         return $this->valores();
     }
 
+    
+    
+    function busc($valores){
+        return $this->buscador($valores);
+    }
     function loadAll() {
         $post = $this->getAll();
         return $post;
@@ -184,11 +203,28 @@ abstract class BasedeDatos {
         }
         
     }
+
+    
+        function existeft($body){
+        $aa = $this->getAll($body);
+        if(empty($aa)){
+            
+            return false;
+            
+        }else{
+            
+          return true;
+            
+        }
+        
+    }
     
 function __toString() {
     $a= json_encode($this->valores());
     return $a;
 }
+
+
 
 
 
