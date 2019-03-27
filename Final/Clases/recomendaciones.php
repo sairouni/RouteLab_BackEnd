@@ -1,6 +1,6 @@
 <?php
 
-require_once 'basedeatos.php';
+require_once 'basededatos.php';
 
 /*
  * To change this license header, choose License Headers in Project Properties.
