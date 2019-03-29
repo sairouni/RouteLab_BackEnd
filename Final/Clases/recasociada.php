@@ -71,7 +71,6 @@ class RecAsociada extends BasedeDatos{
         $redAsociada =$this->getById($id);
         if(!empty($redAsociada)){
             $this->idrecpost=$id;
-           
             $this->idpost = $redAsociada['idpost'];
             $this->idrec = $redAsociada['idrec'];
             $recomendaciones= new Recomendaciones();
