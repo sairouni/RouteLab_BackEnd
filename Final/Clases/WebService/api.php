@@ -7,9 +7,9 @@ header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 header('Content-type: application/json');
 header('Access-Control-Max-Age: 1000');
 header("Access-Control-Allow-Credentials: true");
-require_once 'HTTP.php';
+require_once 'http.php';
 
-require_once 'Response.php';
+require_once 'response.php';
 
 $controller = filter_input(INPUT_GET, "controller");
 $id = filter_input(INPUT_GET, "id");
@@ -38,6 +38,13 @@ if ($verb == "GET") {
     } else {
         $objeto->load($id);
          $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
+    }
+    if($controller=="post"){
+        $rutas = $objeto->loadAll();
+        $media= new Valoracion();
+        $datos->media($rutas);
+        $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+        
     }
 }
 

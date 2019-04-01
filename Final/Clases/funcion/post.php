@@ -21,6 +21,8 @@ try {
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
                 $http->setHTTPHeaders(200, new Response("Post buscado", $datos2));
                 break;
+           
+        
             case "postid":
                 $datos = $objeto->getbyIdPost($id);
                 $http->setHTTPHeaders(200, new Response("Datos:", $datos));
