@@ -134,5 +134,14 @@ class Mensajeria extends BasedeDatos {
             $this->update($this->idmensaje, $mensaje);
         }
     }
+    
+    public function getbyChat($id) {
+        $user = $this->getAll(['idreceptor' => $id]);
+        if (!empty($user)) {
+            return $user;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
 
 }
