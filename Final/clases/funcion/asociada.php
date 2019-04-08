@@ -33,7 +33,7 @@ try {
                     }
                     
                     $objeto->save();
-                    $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
+                    $http->setHttpHeaders(200, new Response("Lista $controller",(String)  $objeto));
                 break;
         }
     }

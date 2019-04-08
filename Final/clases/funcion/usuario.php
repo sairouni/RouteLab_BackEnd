@@ -21,12 +21,17 @@ try {
                 $id = $jsonlogin->idvalorado;
 
                 $datos = $objeto->media($id);
-                $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", $datos));
+                $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas",(string) $datos));
                 break;
             case "gettoken":
                 $datos = $objeto->getbyToken($id);
-                $http->setHTTPHeaders(200, new Response("Datos:", $datos));
+                $http->setHTTPHeaders(200, new Response("Datos:",$datos));
                 break;
+            case "ver":
+               $datos = $objeto->getById($id);
+               $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+               break;
+
         }
     } else {
         
@@ -76,10 +81,10 @@ try {
                     $objeto->save();
 
                     $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
-                    $http->setHttpHeaders(600, new Response("El $controller con el email $email es tuyo", $email));
+                    $http->setHttpHeaders(600, new Response("El $controller con el email $email es tuyo",$email));
                 }
                 else if ($objeto->existe(['email' => $email])) {
-                    $http->setHttpHeaders(600, new Response("El $controller con el email $email esta registrado", $email));
+                    $http->setHttpHeaders(600, new Response("El $controller con el email $email esta registrado",$email));
                 } else {
                     foreach ($jsonRegistro as $c => $v) {
                         if ($c != "localidad") {
@@ -91,7 +96,7 @@ try {
                     }
                     $objeto->save();
 
-                    $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
+                    $http->setHttpHeaders(200, new Response("Lista $controller",(string)$objeto));
                 }
                 break;
         }
@@ -104,7 +109,7 @@ try {
                    $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                     
                 $datos = $objeto->busc([$jsonRegistro]);
-                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));             
+                $http->setHttpHeaders(200, new Response("Lista $controller",(string) $datos));             
                 
                 break;
             case "registro":
@@ -146,8 +151,10 @@ try {
                             $objeto->localidad = $localidad;
                         }
                     }
-
-                    $objeto->save();
+            
+                $usuario = new usuario();
+                $usuario->setpass(PASSWORD_BCRYPT);
+                 $usuario->$objeto->save();
 
                     $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
                 }
@@ -162,14 +169,14 @@ try {
 
                 $datos = $objeto->login($email, $pass);
 
-                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+                $http->setHttpHeaders(200, new Response("Lista $controller",(String)$datos));
                 break;
          
                case "existe":
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonlogin->email;
                 $datos = $objeto->existeft(['email' => $email]);
-                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+                $http->setHttpHeaders(200, new Response("Lista $controller",$datos));
 
 
                 break;
@@ -180,7 +187,7 @@ try {
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
                 $datos = $objeto->logout($json->idusuario);
-                $http->setHTTPHeaders(200, new Response("This: ", $datos));
+                $http->setHTTPHeaders(200, new Response("This: ",(string) $datos));
                 break;
         } //switch funcin
     }//POST 

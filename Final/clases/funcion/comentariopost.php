@@ -26,11 +26,24 @@ try {
                     $objeto->save();
                     $http->setHTTPHeaders(200, new Response("Comentario insertado exitosamente", $datos));
                 } else {
-                    $http->setHTTPHeaders(200, new Response("Comentario vacío", $datos));
+                    $http->setHTTPHeaders(200, new Response("Comentario vacío",(String) $datos));
                 }
                 break;
         }
-    } else {
+    }
+    if ($verb == 'GET'){
+        switch (strtolower($funcion)) {
+        case "comenpost":
+                $jsonlogin = json_decode(file_get_contents("php://input"), false);
+                $desc = $jsonlogin->idpost;
+
+
+                $datos = $objeto->getbyPostC($desc);
+                $http->setHttpHeaders(200, new Response("Recomendacion", $datos));
+                break;
+        }
+    }
+    else {
         
     }
 //

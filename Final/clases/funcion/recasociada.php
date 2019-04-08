@@ -14,7 +14,7 @@ try {
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $desc = $jsonlogin->idpost;
                 $datos = $objeto->getbyIdRec($desc);
-                $http->setHTTPHeaders(200, new Response("Recomendaciones:", $datos));
+                $http->setHTTPHeaders(200, new Response("Recomendaciones:",(String) $datos));
                 break;
         }
     } else {
@@ -33,7 +33,7 @@ try {
                     }
                     
                     $objeto->save();
-                    $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
+                    $http->setHttpHeaders(200, new Response("Lista $controller",(String) $objeto));
                 break;
         }
     }
