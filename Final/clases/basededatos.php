@@ -85,6 +85,19 @@ abstract class BasedeDatos {
             echo $ex->getMessage();
         }
     }
+        function buscador($valores){
+         try {
+        $campos = join(",", array_keys($valores));
+       $parametros = ":" . join(",:", array_keys($valores));
+      $raw_results = mysql_query("SELECT distinct FROM". $this->table .
+            "WHERE (".$campos." LIKE '%".$parametros."%')") or die(mysql_error());
+          $st = self::$conn->prepare($raw_results);
+            $st->execute($valores);
+     } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    
+}
 
     /**
      * Esta función nos devuelve el elemento de la tabla que tenga este id
@@ -138,19 +151,7 @@ abstract class BasedeDatos {
         }
     }
     
-    function buscador($valores){
-         try {
-        $campos = join(",", array_keys($valores));
-       $parametros = ":" . join(",:", array_keys($valores));
-      $raw_results = mysql_query("SELECT * FROM". $this->table .
-            "WHERE (".$campos." LIKE '%".$query."%')") or die(mysql_error());
-          $st = self::$conn->prepare($raw_results);
-            $st->execute($valores);
-     } catch (Exception $ex) {
-            echo $ex->getMessage();
-        }
-    
-}
+
     
      function valores() {
 

@@ -255,7 +255,6 @@ class usuario extends BasedeDatos{
        
             $user = $this->getAll(['email' => $email, 'pass' => $pass]);
             if (!empty($user)) {
-  
                 $usuario = new usuario();
                 $usuario->load($user[0]["idusuario"]);
                 $usuario->setToken(bin2hex(random_bytes(50)));

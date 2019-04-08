@@ -184,7 +184,14 @@ class Post extends BasedeDatos {
         return $med/count($valores);
         
     }
-   
+    
+    function markers($id){
+        $b = new Asociada();
+        $valores = $b->getbyIdAso($id);
+        return ($valores);
+        
+    }
+            
 
 function savePost($json)
 {
@@ -201,7 +208,7 @@ function savePost($json)
 }
 
 public function getbyIdPost($id) {
-        $post = $this->getAll(['idpost' => $id]);
+        $post = $this->getById($id);
         if (!empty($post)) {
             return $post;
         } else {

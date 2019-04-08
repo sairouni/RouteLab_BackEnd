@@ -105,4 +105,13 @@ class comentariopost extends BasedeDatos {
         }
     }
     
+    public function getbyPostC($id) {
+        $user = $this->getAll(['idpost' => $id]);
+        if (!empty($user)) {
+            return $user;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
+    
 }
