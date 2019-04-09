@@ -25,8 +25,13 @@ try {
 
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
-            case "Post":
-                $objeto = savePost($json);
+            case "enviar":
+                $json = json_decode(file_get_contents("php://input"), false);
+                foreach ($json as $c => $v) {
+                            $objeto->$c = $v;
+                    }
+                $objeto->save();
+                $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
                 break;
         }
     }

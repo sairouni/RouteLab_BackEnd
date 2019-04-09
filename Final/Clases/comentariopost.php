@@ -106,9 +106,17 @@ class comentariopost extends BasedeDatos {
     }
     
     public function getbyPostC($id) {
-        $user = $this->getAll(['idpost' => $id]);
-        if (!empty($user)) {
-            return $user;
+        $comnetario = $this->getAll(['idpost' => $id]);
+        if (!empty($comnetario)) {
+         for($i=0;$i<count($comnetario);$i++){
+             
+             $comen=$comnetario[$i];
+             $usuario= new usuario();
+             $usuario->load($comen['idusuario']);
+             $comnetario[$i]['nombreusuario']=$usuario->getnombreusuario();
+             //$comnetario[$i]['usuario']=$usuario->serialize();
+         }
+                return $comnetario;
         } else {
             throw new Exception("No existe ese registro");
         }

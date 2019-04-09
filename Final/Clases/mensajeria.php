@@ -49,11 +49,11 @@ class Mensajeria extends BasedeDatos {
         return $this->mensaje;
     }
 
-    function setEmisor( $idusuario) {
+    function setEmisor($idusuario) {
         $this->emisor = $idusuario;
     }
 
-    function setReceptor( $idusuario) {
+    function setReceptor($idusuario) {
         $this->receptor = $idusuario;
     }
 
@@ -92,10 +92,10 @@ class Mensajeria extends BasedeDatos {
 
         if (!empty($mensaje)) {
             $this->idmensaje = $id;
-            $receptor=new Usuario();
+            $receptor = new Usuario();
             $receptor->load($mensaje['idreceptor']);
             $this->receptor = $receptor;
-            $emisor=new Usuario();
+            $emisor = new Usuario();
             $emisor->load($mensaje['idemisor']);
             $this->emisor = $emisor;
             $this->fecha = $mensaje['fecha'];
@@ -119,13 +119,14 @@ class Mensajeria extends BasedeDatos {
             throw new Exception("No hay registro para borrar");
         }
     }
+
     function save() {
         $mensaje = $this->valores();
         unset($mensaje['idmensaje']);
         var_dump($this->receptor);
-        $mensaje['idreceptor']=$this->receptor->idusuario;
+        $mensaje['idreceptor'] = $this->receptor->idusuario;
         unset($mensaje['receptor']);
-        $mensaje['idemisor']=$this->emisor->idusuario;
+        $mensaje['idemisor'] = $this->emisor->idusuario;
         unset($mensaje['emisor']);
         if (empty($this->idmensaje)) {
             $this->insert($mensaje);
@@ -134,7 +135,19 @@ class Mensajeria extends BasedeDatos {
             $this->update($this->idmensaje, $mensaje);
         }
     }
-    
+
+    function saveChat($json) {
+        $object = new Mensajeria();
+        foreach ($json as $item => $value) {
+            if ($item == 'usuario') {
+                $object->setidusuario($value);
+            } else {
+                $object->$item = $value;
+            }
+        }
+        return $object;
+    }
+
     public function getbyChat($id) {
         $user = $this->getAll(['idreceptor' => $id]);
         if (!empty($user)) {
