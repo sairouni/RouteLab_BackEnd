@@ -300,5 +300,23 @@ class usuario extends BasedeDatos{
         
     }
     
+        function verUsu($id){
+        
+        $usuario= $this->getAll(['idusuario' => $id]);
+            if (!empty($usuario)) {
+         for($i=0;$i<count($usuario);$i++){
+             $usu=$usuario[$i];
+             $localidad= new Localidad();
+             $localidad->load($usu['idlocalidad']);
+             $usuario[$i]['localidad']=$localidad->serialize();
+             //$comnetario[$i]['usuario']=$usuario->serialize();
+         }
+                return $usuario[0];
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+        
+        
+    }
     
 }

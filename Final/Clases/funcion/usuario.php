@@ -31,6 +31,10 @@ try {
                $datos = $objeto->getById($id);
                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
                break;
+               case "verusuario":
+               $datos = $objeto->VerUsu($id);
+               $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+               break;
 
         }
     } else {
