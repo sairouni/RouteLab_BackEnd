@@ -14,9 +14,6 @@ try {
 
         switch (strtolower($funcion)) {
             case "postbyid":
-                $jsonlogin = json_decode(file_get_contents("php://input"), false);
-                $id = $jsonlogin->idpost;
-                
                 $datos = $objeto->getbyIdPost($id);
                 $datos2['media'] = $objeto->media($id);
                 $datos3['markers']= $objeto->markers($id);
