@@ -118,6 +118,7 @@ class Social extends BasedeDatos {
                 $usuario[$i]['usuarioSeguido'] = $us->getnombreusuario();
                 $usuario[$i]['usuario']=$us->serialize();
                 //$comnetario[$i]['usuario']=$usuario->serialize();
+                
             }
             return $usuario;
         } else {
@@ -137,6 +138,7 @@ class Social extends BasedeDatos {
                 $usuario[$i]['usuario'] = $us->serialize();
                 //$comnetario[$i]['usuario']=$usuario->serialize();
             }
+            
             return $usuario;
         } else {
             throw new Exception("No existe ese registro");

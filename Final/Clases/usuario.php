@@ -315,6 +315,28 @@ class usuario extends BasedeDatos{
         } else {
             throw new Exception("No existe ese registro");
         }
+          
+    }
+        function mediaUsu($id) {
+        $b = new ValoracionUsu();
+        $valores = $b->getValoracionByUsuario($id);
+        $med = 0;
+        foreach ($valores as $valor) {
+            
+            $med += $valor['valoracionUsu'];
+        }
+        return $med/count($valores);
+        
+    }
+    
+    function PostTotal($id){
+     for($i = 0; $i < count($id['idpost']); $i++) {
+array_push($valor, $id['idpost'][$i]['idusuario']);
+}  
+$result = array_count_values($valor);
+return $result;
+        
+        
         
         
     }

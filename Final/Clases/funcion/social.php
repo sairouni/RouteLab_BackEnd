@@ -19,6 +19,8 @@ try {
             case "followers":
                 $datos = $objeto->usuSeguidor($id);
                 $http->setHttpHeaders(200, new Response("Recomendacion", $datos));
+         
+
                 break;
         }
     } else {
