@@ -13,8 +13,8 @@ try {
             case "recid":
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $desc = $jsonlogin->idpost;
-                $datos = $objeto->getbyIdRec($desc);
-                $http->setHTTPHeaders(200, new Response("Recomendaciones:",(String) $datos));
+                $datos = $objeto->recomendacion($desc);
+                $http->setHTTPHeaders(200, new Response("Recomendaciones:", $datos));
                 break;
         }
     } else {

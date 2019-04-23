@@ -73,7 +73,7 @@ class RecAsociada extends BasedeDatos{
             $this->idrecpost=$id;
             $this->idpost = $redAsociada['idpost'];
             $this->idrec = $redAsociada['idrec'];
-            $recomendaciones= new Recomendaciones();
+           // $recomendaciones= new Recomendaciones();
           
         } //final del if load
         
@@ -101,13 +101,24 @@ class RecAsociada extends BasedeDatos{
            $this->update($this->idrecpost, $recasociada);
        }
        
-       
-       
-       
-       
-       
-       
    }
+   function recomendacion($id) {
+
+        $rec = $this->getAll(['idpost' => $id]);
+        if (!empty($rec)) {
+            for ($i = 0; $i < count($rec); $i++) {
+                $usu = $rec[$i];
+                $us = new Recomendaciones();
+                $us->load($usu['idrec']);
+                $rec[$i]['recomendacion'] = $us->getDescripcion();
+                $rec[$i]['descripcion']=$us->serialize();
+                //$comnetario[$i]['usuario']=$usuario->serialize();
+            }
+            return $rec;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
    public function getbyIdRec($id) {
         $post = $this->getAll(['idpost' => $id]);
         if (!empty($post)) {
