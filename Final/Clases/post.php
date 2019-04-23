@@ -200,7 +200,8 @@ function savePost($json)
         if ($item == 'usuario') {
             $object->setidusuario($value);
         } else {
-            $object->$item = $value;
+            $object->$item
+                    = $value;
         }
     }
     return $object;
