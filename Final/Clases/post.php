@@ -15,7 +15,7 @@ require_once 'valoracion.php';
  * @author isma_
  */
 class Post extends BasedeDatos {
-    
+
     //Las propiedades mapean las existentes en la base de datos
     private $idpost;
     private $titulo;
@@ -48,11 +48,11 @@ class Post extends BasedeDatos {
     function getUsuario(): Usuario {
         return $this->usuario;
     }
-    
+
     function getValoracion(): Valoracion {
         return $this->idvaloracion;
     }
-    
+
     function getImagen() {
         return $this->imagen;
     }
@@ -60,7 +60,7 @@ class Post extends BasedeDatos {
     function setUsuario(Usuario $usuario) {
         $this->usuario = $usuario;
     }
-    
+
     function setValoracion(Valoracion $idvaloracion) {
         $this->idvaloracion = $idvaloracion;
     }
@@ -81,23 +81,22 @@ class Post extends BasedeDatos {
         $this->descripcion = $descripcion;
     }
 
-        function setidusuario($id){
-        $usuario=new Usuario();
+    function setidusuario($id) {
+        $usuario = new Usuario();
         $usuario->load($id);
-        $this->usuario=$usuario;
+        $this->usuario = $usuario;
     }
-    
-    function setidvaloracion($id){
-        $usuario=new Valoracion();
+
+    function setidvaloracion($id) {
+        $usuario = new Valoracion();
         $usuario->load($id);
-        $this->idvaloracion=$valoracion;
+        $this->idvaloracion = $valoracion;
     }
-    
+
     function setImagen($imagen) {
         $this->imagen = $imagen;
     }
-    
-    
+
     function __get($name) {
         $metodo = "get$name";
         if (method_exists($this, $metodo)) {
@@ -164,7 +163,7 @@ class Post extends BasedeDatos {
             $this->update($this->idpost, $post);
         }
     }
-    
+
     /*
      * Función media que calcula la media llamando a la funcion de la clase
      * Valoracion. Recoge todas las valoraciones de un id Post en concreto
@@ -173,42 +172,50 @@ class Post extends BasedeDatos {
      * se recorre el array. Devuelve el valor dividido por la cantidad de 
      * valoraciones totales que ha tenido el post.
      */
+
     function media($id) {
         $b = new Valoracion();
         $valores = $b->getValoracionByPost($id);
         $med = 0;
         foreach ($valores as $valor) {
-            
+
             $med += $valor['valoracion'];
         }
-        return $med/count($valores);
-        
+        return $med / count($valores);
     }
-    
-    function markers($id){
-        $b = new Asociada();
-        $valores = $b->getbyIdAso($id);
-        return ($valores);
-        
-    }
-            
 
-function savePost($json)
-{
-    $object = new Post();
-    foreach ($json as $item => $value) {
-        if ($item == 'usuario') {
-            $object->setidusuario($value);
+    function markers($id) {
+        $a = new asociada();
+        // $marker = $a->getAll(['idasociada' => $id]);
+        $marker = $a->getbyIdAso($id);
+        $localidades = [];
+        if (!empty($marker)) {
+            for ($i = 0; $i < count($marker); $i++) {
+                $mar = $marker[$i];
+                $localidad = new Localidad();
+                $localidad->load($mar['idlocalidad']);
+                $localidades[$i] = $localidad->serialize();
+                //$comnetario[$i]['usuario']=$usuario->serialize();
+            }
+            return $localidades;
         } else {
-            $object->$item
-                    = $value;
+            throw new Exception("No existe ese registro");
         }
     }
-    return $object;
 
-}
+    function savePost($json) {
+        $object = new Post();
+        foreach ($json as $item => $value) {
+            if ($item == 'usuario') {
+                $object->setidusuario($value);
+            } else {
+                $object->$item = $value;
+            }
+        }
+        return $object;
+    }
 
-public function getbyIdPost($id) {
+    public function getbyIdPost($id) {
         $post = $this->getById($id);
         if (!empty($post)) {
             return $post;

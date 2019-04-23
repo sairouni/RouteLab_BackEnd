@@ -116,9 +116,10 @@ try {
                 $http->setHttpHeaders(200, new Response("Lista $controller",(string) $datos));             
                 
                 break;
+            
             case "registro":
 
-                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+               $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonRegistro->email;
                 $localidad = new Localidad();
                 $pais = $jsonRegistro->localidad->pais;
@@ -156,13 +157,16 @@ try {
                         }
                     }
             
-                $usuario = new usuario();
-                $usuario->setpass(PASSWORD_BCRYPT);
-                 $usuario->$objeto->save();
+               
+                //   $usuario = new usuario();
+                //$objeto->setpass(PASSWORD_BCRYPT);
+                $objeto->save();
 
-                    $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
+                    $http->setHttpHeaders(200, new Response("Lista $controller",(string)$objeto));
                 }
 
+
+         
 
                 break;
             case "login":

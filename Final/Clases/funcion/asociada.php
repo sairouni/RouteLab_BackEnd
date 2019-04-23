@@ -11,9 +11,7 @@ try {
 
         switch (strtolower($funcion)) {
             case "marker":
-                $jsonlogin = json_decode(file_get_contents("php://input"), false);
-                $desc = $jsonlogin->idpost;
-                $datos = $objeto->getbyIdAso($desc);
+                $datos = $objeto->getbyIdAso($id);
                 $http->setHTTPHeaders(200, new Response("Markers:", $datos));
                 break;
         }
