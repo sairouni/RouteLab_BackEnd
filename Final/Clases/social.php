@@ -106,6 +106,17 @@ class Social extends BasedeDatos {
             $this->update($this->idsocial, $social);
         }
     }
+    function save2(){
+       $social= $this->valores();
+       unset($social['idsocial']);
+           if (empty($this->idsocial)) {
+           $this->insert($social);
+           $this->idsocial = self::$conn->lastInsertId();
+       } else {
+           $this->update($this->idsocial, $social);
+       }
+       
+   }
 
     function usuSeguido($id) {
 
@@ -144,5 +155,16 @@ class Social extends BasedeDatos {
             throw new Exception("No existe ese registro");
         }
     }
-
+    function deleteSeguido($ids, $id) {
+        $usuario = $this->getAll(['idseguidor'=>$ids, 'idseguido' => $id]);
+        if (!empty($usuario)) {
+            for ($i = 0; $i < count($usuario); $i++) {
+                $usu = $usuario[$i];
+                $usuario[$i]->load($usu['idsocial']);
+            }
+            return $usuario;
+        } else {
+            throw new Exception("No hay registro para borrar");
+        }
+    }
 }

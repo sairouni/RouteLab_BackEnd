@@ -29,13 +29,28 @@ try {
 
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
-            case "enviar":
-                $json = json_decode(file_get_contents("php://input"), false);
-                foreach ($json as $c => $v) {
+            case "follow":
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                $idseguido = $jsonRegistro->idseguido;
+                $idseguidor = $jsonRegistro->idseguidor;
+                    
+                foreach ($jsonRegistro as $c => $v) {
                             $objeto->$c = $v;
                     }
-                $objeto->save();
-                $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
+                    
+                    $objeto->save2();
+                    $http->setHttpHeaders(200, new Response("Lista $controller",(String) $objeto));
+                break;
+        }
+    }
+    if ($verb == "DELETE") {
+        switch (strtolower($funcion)) {
+            case "unfollow":
+                $jsonlogin = json_decode(file_get_contents("php://input"), false);
+                $ids = $jsonlogin->idseguidor;
+                $id = $jsonlogin->idseguido;
+                $datos = $objeto->deleteSeguido($ids, $id);
+                $http->setHttpHeaders(200, new Response("Datos eliminados", $datos));
                 break;
         }
     }
