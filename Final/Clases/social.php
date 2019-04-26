@@ -156,15 +156,24 @@ class Social extends BasedeDatos {
         }
     }
     function deleteSeguido($ids, $id) {
-        $usuario = $this->getAll(['idseguidor'=>$ids, 'idseguido' => $id]);
+       try {     $usuario = $this->getAll(['idseguidor'=>$ids, 'idseguido' => $id]);
+    
         if (!empty($usuario)) {
             for ($i = 0; $i < count($usuario); $i++) {
-                $usu = $usuario[$i];
-                $usuario[$i]->load($usu['idsocial']);
+           
+                $usu = new social();
+             
+                $usu->load($usuario[$i]['idsocial']);
+              
+                $usu->delete();
+         //       $usuario[$i]->load($usu['idsocial']);
             }
-            return $usuario;
         } else {
             throw new Exception("No hay registro para borrar");
         }
+    
+    } catch(Exception $ex){
+        echo $ex->getMessage();die();
+    }
     }
 }
