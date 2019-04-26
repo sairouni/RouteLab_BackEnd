@@ -21,21 +21,20 @@ try {
                 $id = $jsonlogin->idvalorado;
 
                 $datos = $objeto->media($id);
-                $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas",(string) $datos));
+                $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", (string) $datos));
                 break;
             case "gettoken":
                 $datos = $objeto->getbyToken($id);
-                $http->setHTTPHeaders(200, new Response("Datos:",$datos));
+                $http->setHTTPHeaders(200, new Response("Datos:", $datos));
                 break;
             case "ver":
-               $datos = $objeto->getById($id);
-               $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
-               break;
-               case "verusuario":
-               $datos = $objeto->VerUsu($id);
-               $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
-               break;
-
+                $datos = $objeto->getById($id);
+                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+                break;
+            case "verusuario":
+                $datos = $objeto->VerUsu($id);
+                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+                break;
         }
     } else {
         
@@ -72,7 +71,7 @@ try {
                     $localidad->load($datos);
                 }
 
-                
+
                 if ($objeto->idexiste(['email' => $email]) == $id) {
                     foreach ($jsonRegistro as $c => $v) {
                         if ($c != "localidad") {
@@ -85,10 +84,9 @@ try {
                     $objeto->save();
 
                     $http->setHttpHeaders(200, new Response("Lista $controller", $objeto));
-                    $http->setHttpHeaders(600, new Response("El $controller con el email $email es tuyo",$email));
-                }
-                else if ($objeto->existe(['email' => $email])) {
-                    $http->setHttpHeaders(600, new Response("El $controller con el email $email esta registrado",$email));
+                    $http->setHttpHeaders(600, new Response("El $controller con el email $email es tuyo", $email));
+                } else if ($objeto->existe(['email' => $email])) {
+                    $http->setHttpHeaders(600, new Response("El $controller con el email $email esta registrado", $email));
                 } else {
                     foreach ($jsonRegistro as $c => $v) {
                         if ($c != "localidad") {
@@ -100,7 +98,7 @@ try {
                     }
                     $objeto->save();
 
-                    $http->setHttpHeaders(200, new Response("Lista $controller",(string)$objeto));
+                    $http->setHttpHeaders(200, new Response("Lista $controller", (string) $objeto));
                 }
                 break;
         }
@@ -110,16 +108,42 @@ try {
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
             case "buscador":
-                   $jsonRegistro = json_decode(file_get_contents("php://input"), false);
-                    
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+
                 $datos = $objeto->busc([$jsonRegistro]);
-                $http->setHttpHeaders(200, new Response("Lista $controller",(string) $datos));             
-                
+                $http->setHttpHeaders(200, new Response("Lista $controller", (string) $datos));
+
                 break;
-            
+
+            case "foto":
+
+        
+                $body = file_get_contents('php://input');
+                $json = json_decode($body);
+                $files = $_FILES;
+                if (isset($files["photo"])) {
+                    if ($files["photo"] != "undefined") {
+                       
+                        $nombre=(bin2hex(random_bytes(25)));
+                        //   $ruta = "/routelab/assets/uploads/$controller" . "s/" . $objeto->$ido . ".jpg";
+                        //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/" . $objeto->$ido . "1.jpg";
+                        $ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$nombre.".jpg";
+                        move_uploaded_file($files["photo"]["tmp_name"], $ruta);
+                        $objeto->setFoto = $ruta;
+                        $objeto->save();
+                    }
+                }
+                $http->setHTTPHeaders(201, new Response("Registro Insertado", $objeto->serialize()));
+
+
+
+
+
+                break;
+
             case "registro":
 
-               $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonRegistro->email;
                 $localidad = new Localidad();
                 $pais = $jsonRegistro->localidad->pais;
@@ -156,17 +180,17 @@ try {
                             $objeto->localidad = $localidad;
                         }
                     }
-            
-               
-                //   $usuario = new usuario();
-                //$objeto->setpass(PASSWORD_BCRYPT);
-                $objeto->save();
 
-                    $http->setHttpHeaders(200, new Response("Lista $controller",(string)$objeto));
+
+                    //   $usuario = new usuario();
+                    //$objeto->setpass(PASSWORD_BCRYPT);
+                    $objeto->save();
+
+                    $http->setHttpHeaders(200, new Response("Lista $controller", (string) $objeto));
                 }
 
 
-         
+
 
                 break;
             case "login":
@@ -177,14 +201,14 @@ try {
 
                 $datos = $objeto->login($email, $pass);
 
-                $http->setHttpHeaders(200, new Response("Lista $controller",(String)$datos));
+                $http->setHttpHeaders(200, new Response("Lista $controller", (String) $datos));
                 break;
-         
-               case "existe":
+
+            case "existe":
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonlogin->email;
                 $datos = $objeto->existeft(['email' => $email]);
-                $http->setHttpHeaders(200, new Response("Lista $controller",$datos));
+                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
 
 
                 break;
@@ -195,7 +219,7 @@ try {
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
                 $datos = $objeto->logout($json->idusuario);
-                $http->setHTTPHeaders(200, new Response("This: ",(string) $datos));
+                $http->setHTTPHeaders(200, new Response("This: ", (string) $datos));
                 break;
         } //switch funcin
     }//POST 
