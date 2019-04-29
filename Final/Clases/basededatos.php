@@ -12,6 +12,7 @@ abstract class BasedeDatos {
     protected $showFields; //Array con los nombres de los campos a mostrar en determinadas consultas (opcional)
     static protected $conn;
 
+
     /**
      * El constructor necesita el nombre de la tabla y el nombre del campo clave
      * Opcionalmente podemos indicar los campos que tiene la tabla y aquellos que queremos mostrar
