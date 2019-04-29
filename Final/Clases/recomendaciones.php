@@ -111,8 +111,8 @@ class Recomendaciones extends BasedeDatos {
         }
     }
 
-    public function getbyRec($id) {
-        $user = $this->getAll(['pclave' => $id]);
+    public function getbyRec() {
+        $user = $this->getAll();
         if (!empty($user)) {
             return $user;
         } else {

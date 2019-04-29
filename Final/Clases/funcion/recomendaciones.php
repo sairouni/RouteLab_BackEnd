@@ -13,11 +13,9 @@ try {
 
         switch (strtolower($funcion)) {
             case "recomendaciones":
-                $jsonlogin = json_decode(file_get_contents("php://input"), false);
-                $desc = $jsonlogin->pclave;
 
 
-                $datos = $objeto->getbyRec($desc);
+                $datos = $objeto->getbyRec();
                 $http->setHttpHeaders(200, new Response("Recomendacion", $datos));
                 break;
         }
