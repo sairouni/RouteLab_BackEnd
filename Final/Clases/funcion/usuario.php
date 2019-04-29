@@ -57,7 +57,6 @@ try {
                 $direccion = $jsonRegistro->localidad->direccion;
                 $latitud = $jsonRegistro->localidad->latitud;
                 $longitud = $jsonRegistro->localidad->longitud;
-
                 $datos = $localidad->idexiste(['latitud' => $latitud, 'longitud' => $longitud]);
                 if ($datos == false) {
                     // Registrar localidad
@@ -97,7 +96,6 @@ try {
                         }
                     }
                     $objeto->save();
-
                     $http->setHttpHeaders(200, new Response("Lista $controller", (string) $objeto));
                 }
                 break;
@@ -123,7 +121,6 @@ try {
                 $files = $_FILES;
                 if (isset($files["photo"])) {
                     if ($files["photo"] != "undefined") {
-                       
                         $nombre=(bin2hex(random_bytes(25)));
                         //   $ruta = "/routelab/assets/uploads/$controller" . "s/" . $objeto->$ido . ".jpg";
                         //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/" . $objeto->$ido . "1.jpg";
@@ -134,10 +131,6 @@ try {
                     }
                 }
                 $http->setHTTPHeaders(201, new Response("Registro Insertado", $objeto->serialize()));
-
-
-
-
 
                 break;
 

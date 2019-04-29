@@ -125,7 +125,7 @@ class Social extends BasedeDatos {
             for ($i = 0; $i < count($usuario); $i++) {
                 $usu = $usuario[$i];
                 $us = new Usuario();
-                $us->load($usu['idseguido']);
+                $us->load($usu['idseguidor']);
                 $usuario[$i]['usuarioSeguido'] = $us->getnombreusuario();
                 $usuario[$i]['usuario']=$us->serialize();
                 //$comnetario[$i]['usuario']=$usuario->serialize();
@@ -144,7 +144,7 @@ class Social extends BasedeDatos {
             for ($i = 0; $i < count($usuario); $i++) {
                 $usu = $usuario[$i];
                 $us = new Usuario();
-                $us->load($usu['idseguidor']);
+                $us->load($usu['idseguido']);
                 $usuario[$i]['usuarioSeguidor'] = $us->getnombreusuario();
                 $usuario[$i]['usuario'] = $us->serialize();
                 //$comnetario[$i]['usuario']=$usuario->serialize();

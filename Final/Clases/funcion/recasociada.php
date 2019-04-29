@@ -11,9 +11,7 @@ try {
 
         switch (strtolower($funcion)) {
             case "recid":
-                $jsonlogin = json_decode(file_get_contents("php://input"), false);
-                $desc = $jsonlogin->idpost;
-                $datos = $objeto->recomendacion($desc);
+                $datos = $objeto->recomendacion($id);
                 $http->setHTTPHeaders(200, new Response("Recomendaciones:", $datos));
                 break;
         }
