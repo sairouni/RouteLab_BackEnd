@@ -112,22 +112,23 @@ try {
                 $http->setHttpHeaders(200, new Response("Lista $controller", (string) $datos));
 
                 break;
+            
 
             case "foto":
 
-        
                 $body = file_get_contents('php://input');
                 $json = json_decode($body);
                 $files = $_FILES;
-                if (isset($files["photo"])) {
+                 if (isset($files["photo"])) {
                     if ($files["photo"] != "undefined") {
-                        $nombre=(bin2hex(random_bytes(25)));
-                        //   $ruta = "/routelab/assets/uploads/$controller" . "s/" . $objeto->$ido . ".jpg";
+                 //  $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                 $nombreusu = $json->nombreusuario;
+                         
+                         // $ruta = "/routelab/assets/uploads/$controller" . "s/" .$nombreusu. ".jpg";
                         //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/" . $objeto->$ido . "1.jpg";
-                        $ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$nombre.".jpg";
+                     $ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
                         move_uploaded_file($files["photo"]["tmp_name"], $ruta);
-                        $objeto->setFoto = $ruta;
-                        $objeto->save();
+                       
                     }
                 }
                 $http->setHTTPHeaders(201, new Response("Registro Insertado", $objeto->serialize()));
