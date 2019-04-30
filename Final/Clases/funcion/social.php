@@ -19,8 +19,13 @@ try {
             case "followers":
                 $datos = $objeto->usuSeguidor($id);
                 $http->setHttpHeaders(200, new Response("Recomendacion", $datos));
-         
-
+                break;
+            case "ff":
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                $idseguido = $jsonRegistro->idseguido;
+                $idseguidor = $jsonRegistro->idseguidor;
+                $datos = $objeto->usuSeguidoY($idseguido, $idseguidor);
+                $http->setHttpHeaders(200, new Response("Seguidos/res", $datos));
                 break;
         }
     } else {

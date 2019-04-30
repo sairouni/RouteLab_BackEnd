@@ -136,6 +136,19 @@ class Social extends BasedeDatos {
             throw new Exception("No existe ese registro");
         }
     }
+    
+    function usuSeguidoY($id, $ids) {
+
+        $usuario = $this->getAll([ 'idseguido' => $id, 'idseguidor' => $ids]);
+        $usuario2 = $this->getAll([ 'idseguido' => $ids, 'idseguidor' => $id]);
+        if (!empty($usuario) && !empty($usuario2)) {
+            
+            return true;
+        } else {
+            return false;
+//            throw new Exception("No existe ese registro");
+        }
+    }
 
     function usuSeguidor($id) {
 
