@@ -33,17 +33,17 @@ if (empty($funcion)) {
 
 
 
-//if ($function != "login" && $function != "registro") {
-//        //Miramos si el Token esta bien del usuario logeado
-//        try {
-//            $userLogged = new usuario();
-//            $userLogged->getByToken($token);
-//        } catch (Exception $e) {
-//            $http->setHttpHeaders(200, new Response("Bad request Error No User With This Token"));
-//            die();
-//           
-//        }
-//    }
+if ($function != "login" && $function != "registro") {
+        //Miramos si el Token esta bien del usuario logeado
+        try {
+            $userLogged = new usuario();
+            $userLogged->getByToken($token);
+        } catch (Exception $e) {
+            $http->setHttpHeaders(200, new Response("Bad request Error No User With This Token"));
+            die();
+           
+        }
+    }
 //verbo Get
     if ($verb == "GET") {
         if (empty($id)) {

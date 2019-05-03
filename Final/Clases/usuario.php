@@ -238,10 +238,11 @@ class usuario extends BasedeDatos{
        }
    }
    
-       public function getbyToken($id)
+       public function getbyToken($token)
     {
-        $user = $this->getAll(['token' => $id]);
+        $user = $this->getAll(['token' => $token]);
         if (!empty($user)) {
+            $this->load($user[0]['idusuario']);
             return $user;
         } else {
             throw new Exception("No existe ese registro");

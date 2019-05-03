@@ -108,23 +108,34 @@ try {
             case "buscadorusu":
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $nombreusuario = $jsonRegistro->nombreusuario;
-              
+
                 $datos = $objeto->buscador_usu($nombreusuario);
-                $http->setHttpHeaders(200, new Response("Lista $controller",$datos));
+                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
 
                 break;
 
 
             case "fotoperfil":
-              //  $body = file_get_contents('php://input');
+                //  $body = file_get_contents('php://input');
                 $files = $_FILES;
                 if (isset($files["photo"])) {
                     if ($files["photo"] != "undefined") {
-                        $nombreusu = $_POST['nombreusuario'];
+                        $token = $_POST['token'];
+                        echo $token;
+                        try {
+                            $userLogged = new usuario();
+                            $userLogged->getByToken($token);
+                            
+                            var_dump($userLogged);
+                            die();
+                            $ruta = "C:/Users/isma_/Desktop/$controller" . "s/" . $nombreusu . ".jpg";
+                            //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
+                            move_uploaded_file($files["photo"]["tmp_name"], $ruta);
+                        } catch (Exception $e) {
+                            $http->setHttpHeaders(200, new Response("Bad request Error No User With This Token"));
+                            die();
+                        }
                         //$ruta = "/assets/uploads/$controller" . "s/" .$nombreusu. ".jpg";
-                        $ruta = "C:/Users/isma_/Desktop/$controller" . "s/" . $nombreusu . ".jpg";
-                        //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
-                        move_uploaded_file($files["photo"]["tmp_name"], $ruta);
                     }
                 }
                 $http->setHTTPHeaders(201, new Response("Foto Registrada correctamente"));
