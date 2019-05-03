@@ -8,7 +8,7 @@ header('Content-type: application/json');
 header('Access-Control-Max-Age: 1000');
 header("Access-Control-Allow-Credentials: true");
 require_once 'http.php';
-
+require_once '../usuario.php';
 require_once 'response.php';
 
 $controller = filter_input(INPUT_GET, "controller");
@@ -16,6 +16,9 @@ $id = filter_input(INPUT_GET, "id");
 $nombreusuario = filter_input(INPUT_GET, "nombreusuario");
 $verb = $_SERVER['REQUEST_METHOD'];
 $funcion = filter_input(INPUT_GET, 'funcion');
+$token = filter_input(INPUT_GET, 'token');
+$userLogged = new usuario();
+$userLogged->getByToken($token);
 $http = new HTTP();
 
 require_once '../' . $controller . '.php'; //require once lo que te pide el controller

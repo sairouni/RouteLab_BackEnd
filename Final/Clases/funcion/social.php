@@ -7,13 +7,15 @@ header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 header('Content-type: application/json');
 header('Access-Control-Max-Age: 1000');
 header("Access-Control-Allow-Credentials: true");
+require_once '../usuario.php';
 try {
 
     if ($verb == 'GET') {
 
         switch (strtolower($funcion)) {
             case "follows":
-                $datos = $objeto->usuSeguido($id);
+                $idss=$userLogged->idusuario;
+                $datos = $objeto->usuSeguido($idss);
                 $http->setHttpHeaders(200, new Response("Recomendacion", $datos));
                 break;
             case "followers":
