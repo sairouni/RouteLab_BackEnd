@@ -152,6 +152,21 @@ abstract class BasedeDatos {
         }
     }
     
+            function buscador_usu($nombreusuario){
+           
+                      
+ $res = self::$conn->query("select * from usuario where nombreusuario ='" .$nombreusuario."'");
+ 
+        return $res->fetchAll(PDO::FETCH_ASSOC);
+}
+
+        function buscador_ruta($valor){
+           
+                      
+ $res = self::$conn->query("select * from post where titulo LIKE UPPER('%" .strtoupper($valor)."%') or descripcion LIKE UPPER('%" .strtoupper($valor)."%')");
+ 
+        return $res->fetchAll(PDO::FETCH_ASSOC);
+}
 
     
      function valores() {

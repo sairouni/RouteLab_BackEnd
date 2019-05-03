@@ -105,32 +105,26 @@ try {
     }
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
-            case "buscador":
+            case "buscadorusu":
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
-
-                $datos = $objeto->busc([$jsonRegistro]);
-                $http->setHttpHeaders(200, new Response("Lista $controller", (string) $datos));
+                $nombreusuario = $jsonRegistro->nombreusuario;
+              
+                $datos = $objeto->buscador_usu($nombreusuario);
+                $http->setHttpHeaders(200, new Response("Lista $controller",$datos));
 
                 break;
-            
+
 
             case "fotoperfil":
-
-                $body = file_get_contents('php://input');
+              //  $body = file_get_contents('php://input');
                 $files = $_FILES;
-               
-                
-                 if (isset($files["photo"])) {
+                if (isset($files["photo"])) {
                     if ($files["photo"] != "undefined") {
-                // $jsonRegistro = json_decode(file_get_contents("php://input"), false);
-                 
-                 $nombreusu = $_POST['nombreusuario'];
-              
+                        $nombreusu = $_POST['nombreusuario'];
                         //$ruta = "/assets/uploads/$controller" . "s/" .$nombreusu. ".jpg";
-                     $ruta = "C:/Users/isma_/Desktop/$controller" . "s/" .$nombreusu . ".jpg";
-                    //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
-                      move_uploaded_file($files["photo"]["tmp_name"], $ruta);
-                       
+                        $ruta = "C:/Users/isma_/Desktop/$controller" . "s/" . $nombreusu . ".jpg";
+                        //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
+                        move_uploaded_file($files["photo"]["tmp_name"], $ruta);
                     }
                 }
                 $http->setHTTPHeaders(201, new Response("Foto Registrada correctamente"));

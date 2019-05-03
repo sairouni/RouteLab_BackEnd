@@ -46,6 +46,45 @@ try {
             case "Post":
                 $objeto = savePost($json);
                 break;
+            
+            case "foto":
+               $files = $_FILES;
+                for($i=0;$i<20;$i++){
+                if (isset($files["photo"])) {
+                    if ($files["photo"] != "undefined") {
+                        $idpost = $_POST['idpost'];
+                        //$ruta = "/assets/uploads/$controller" . "s/" .$nombreusu. ".jpg";
+                        $ruta = "C:/Users/isma_/Desktop/$idpost" . "s/post" . $i . ".jpg";
+                        //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
+                        move_uploaded_file($files["photo"]["tmp_name"], $ruta);
+                    }
+                }
+                }
+                $http->setHTTPHeaders(201, new Response("Foto Registrada correctamente"));
+                
+                
+                
+                break;
+                
+                case "buscadorpost":
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                $valor = $jsonRegistro->valor;
+                $datos = $objeto->buscador_ruta($valor);
+                $http->setHttpHeaders(200, new Response("Lista $controller",$datos));
+
+                break;
+            
+            
+            case "buscador":
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                $valor = $jsonRegistro->valor;
+                $datos = $objeto->buscador_ruta($valor);
+                $datos2 = $objeto->buscador_usu($valor);
+                $resultado = array_merge($datos, $datos2);
+                
+                $http->setHttpHeaders(200, new Response("Lista $controller",$resultado));
+
+                break;
         }
     }
 } catch (Exception $ex) {
