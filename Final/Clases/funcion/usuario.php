@@ -19,7 +19,6 @@ try {
             case "media":
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
                 $id = $jsonlogin->idvalorado;
-
                 $datos = $objeto->media($id);
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", (string) $datos));
                 break;
@@ -108,7 +107,6 @@ try {
             case "buscadorusu":
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $nombreusuario = $jsonRegistro->nombreusuario;
-
                 $datos = $objeto->buscador_usu($nombreusuario);
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
 
@@ -119,15 +117,9 @@ try {
                 //  $body = file_get_contents('php://input');
                 $files = $_FILES;
                 if (isset($files["photo"])) {
-                    if ($files["photo"] != "undefined") {
-                        $token = $_POST['token'];
-                        echo $token;
+                    if ($files["photo"] != "undefined") { 
                         try {
-                            $userLogged = new usuario();
-                            $userLogged->getByToken($token);
-                            
-                            var_dump($userLogged);
-                            die();
+                            $nombreusu=$userLogged->nombreusuario;
                             $ruta = "C:/Users/isma_/Desktop/$controller" . "s/" . $nombreusu . ".jpg";
                             //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
                             move_uploaded_file($files["photo"]["tmp_name"], $ruta);
@@ -143,7 +135,6 @@ try {
                 break;
 
             case "registro":
-
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $email = $jsonRegistro->email;
                 $localidad = new Localidad();

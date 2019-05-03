@@ -17,26 +17,9 @@ $nombreusuario = filter_input(INPUT_GET, "nombreusuario");
 $verb = $_SERVER['REQUEST_METHOD'];
 $funcion = filter_input(INPUT_GET, 'funcion');
 $token = filter_input(INPUT_GET, 'token');
-$userLogged = new usuario();
-$userLogged->getByToken($token);
-$http = new HTTP();
 
-require_once '../' . $controller . '.php'; //require once lo que te pide el controller
-$objeto = new $controller;
-
-if (empty($funcion)) {
-
-    if (empty($controller) || !file_exists('../' . $controller . ".php")) {
-        $http = new HTTP();
-        $http->setHttpHeaders(400, new Response("Bad request"));
-        die();
-    }
-
-
-
-
-
-if ($function != "login" && $function != "registro") {
+if ($funcion != "login" && $funcion != "registro"&& $funcion != "buscador" 
+    && $funcion != "buscadorusu" && $funcion != "buscadorpost"&& $funcion != "editar") {
         //Miramos si el Token esta bien del usuario logeado
         try {
             $userLogged = new usuario();
@@ -47,6 +30,23 @@ if ($function != "login" && $function != "registro") {
            
         }
     }
+$http = new HTTP();
+
+require_once '../' . $controller . '.php'; //require once lo que te pide el controller
+$objeto = new $controller;
+
+    if (empty($funcion)) {
+
+    if (empty($controller) || !file_exists('../' . $controller . ".php")) {
+        $http = new HTTP();
+        $http->setHttpHeaders(400, new Response("Bad request"));
+        die();
+    }
+    
+
+    
+    
+
 //verbo Get
     if ($verb == "GET") {
         if (empty($id)) {
