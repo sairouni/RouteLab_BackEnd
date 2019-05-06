@@ -18,7 +18,7 @@ try {
 
             case "media":
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
-                $id = $jsonlogin->idvalorado;
+                $id = $userLogged->idusuario;
                 $datos = $objeto->media($id);
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", (string) $datos));
                 break;
@@ -27,11 +27,13 @@ try {
                 $http->setHTTPHeaders(200, new Response("Datos:", $datos));
                 break;
             case "ver":
+                $id = $userLogged->idusuario;
                 $datos = $objeto->getById($id);
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
                 break;
             case "verusuario":
-                $datos = $objeto->VerUsu($id);
+                $id = $userLogged->idusuario;
+                $datos = $objeto->verUsu($id);
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
                 break;
         }
@@ -43,6 +45,7 @@ try {
         // Pasar el id a la funcion "edit", si no se le pasa id devolvera una respuesta incorrecta
         switch (strtolower($funcion)) {
             case "edit":
+                $id = $userLogged->idusuario;
                 $objeto->load($id);
                 if (empty($id)) {
                     $http->setHttpHeaders(400, new Response("Bad request"));
