@@ -19,7 +19,9 @@ $funcion = filter_input(INPUT_GET, 'funcion');
 $token = filter_input(INPUT_GET, 'token');
 
 if ($funcion != "login" && $funcion != "registro"&& $funcion != "buscador" 
-    && $funcion != "buscadorusu" && $funcion != "buscadorpost"&& $funcion != "editar") {
+    && $funcion != "buscadorusu" && $funcion != "buscadorpost"&& $funcion != "editar"
+        && $funcion != "marker"&& $funcion != "register"&& $funcion != "mensaje"&& $funcion != "comentario"
+        && $funcion != "comenpost"&& $funcion != "editar") {
         //Miramos si el Token esta bien del usuario logeado
         try {
             $userLogged = new usuario();
