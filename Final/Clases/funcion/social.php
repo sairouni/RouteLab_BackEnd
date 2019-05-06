@@ -14,18 +14,19 @@ try {
 
         switch (strtolower($funcion)) {
             case "follows":
-                $idss=$userLogged->idusuario;
+                $idss = $userLogged->idusuario;
                 $datos = $objeto->usuSeguido($idss);
                 $http->setHttpHeaders(200, new Response("Recomendacion", $datos));
                 break;
             case "followers":
-                $datos = $objeto->usuSeguidor($id);
+                $idss = $userLogged->idusuario;
+                $datos = $objeto->usuSeguidor($idss);
                 $http->setHttpHeaders(200, new Response("Recomendacion", $datos));
                 break;
             case "ff":
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $idseguido = $jsonRegistro->idseguido;
-                $idseguidor = $jsonRegistro->idseguidor;
+                $idseguidor = $userLogged->idusuario;
                 $datos = $objeto->usuSeguidoY($idseguido, $idseguidor);
                 $http->setHttpHeaders(200, new Response("Seguidos/res", $datos));
                 break;
@@ -40,13 +41,13 @@ try {
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $idseguido = $jsonRegistro->idseguido;
                 $idseguidor = $jsonRegistro->idseguidor;
-                    
+
                 foreach ($jsonRegistro as $c => $v) {
-                            $objeto->$c = $v;
-                    }
-                    
-                    $objeto->save2();
-                    $http->setHttpHeaders(200, new Response("Lista $controller",(String) $objeto));
+                    $objeto->$c = $v;
+                }
+
+                $objeto->save2();
+                $http->setHttpHeaders(200, new Response("Lista $controller", (String) $objeto));
                 break;
         }
     }
@@ -54,7 +55,7 @@ try {
         switch (strtolower($funcion)) {
             case "unfollow":
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
-                $ids = $jsonlogin->idseguidor;
+                $ids = $userLogged->idusuario;
                 $id = $jsonlogin->idseguido;
                 $datos = $objeto->deleteSeguido($ids, $id);
                 $http->setHttpHeaders(200, new Response("Datos eliminados", $datos));
