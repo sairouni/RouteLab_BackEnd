@@ -48,19 +48,27 @@ try {
                 break;
             
             case "foto":
-               $files = $_FILES;
-                for($i=0;$i<20;$i++){
-                if (isset($files["photo"])) {
-                    if ($files["photo"] != "undefined") {
-                        $idpost = $_POST['idpost'];
+             
+                $files = $_FILES;
+               for($u=0;$u<5;$u++){       
+               if (isset($files["photo".$u])) {
+                    if ($files["photo".$u]!= "undefined") { 
+                        try { 
+                            $ruta = "C:/Users/isma_/Desktop/$controller" . "s/" . $u . ".jpg";
+                            //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
+                            
+                            move_uploaded_file($files["photo".$u]["tmp_name"], $ruta);       
+                        } catch (Exception $e) {
+                            $http->setHttpHeaders(200, new Response("Bad request Error No User With This Token"));
+                            die();
+                        }
+                    }
                         //$ruta = "/assets/uploads/$controller" . "s/" .$nombreusu. ".jpg";
-                        $ruta = "C:/Users/isma_/Desktop/$idpost" . "s/post" . $i . ".jpg";
-                        //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
-                        move_uploaded_file($files["photo"]["tmp_name"], $ruta);
                     }
                 }
-                }
                 $http->setHTTPHeaders(201, new Response("Foto Registrada correctamente"));
+
+                break;
                 
                 
                 

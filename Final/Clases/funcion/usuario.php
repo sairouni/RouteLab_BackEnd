@@ -120,20 +120,21 @@ try {
                 //  $body = file_get_contents('php://input');
                 $files = $_FILES;
                 if (isset($files["photo"])) {
+     
                     if ($files["photo"] != "undefined") { 
-                        try {
+                        try { 
                             $nombreusu=$userLogged->nombreusuario;
-                            $ruta = "C:/Users/isma_/Desktop/$controller" . "s/" . $nombreusu . ".jpg";
-                            //$ruta = "C:/Users/isma_/Desktop/$controller" . "s/".$objeto->$nombreusu.".jpg";
-                            move_uploaded_file($files["photo"]["tmp_name"], $ruta);
+                            $ruta = $_SERVER['DOCUMENT_ROOT']."/assets/uploads/usuarios/".$nombreusu.".jpg";
+                            move_uploaded_file($files["photo"]["tmp_name"],$ruta);
                         } catch (Exception $e) {
                             $http->setHttpHeaders(200, new Response("Bad request Error No User With This Token"));
                             die();
                         }
-                        //$ruta = "/assets/uploads/$controller" . "s/" .$nombreusu. ".jpg";
+                       
                     }
                 }
-                $http->setHTTPHeaders(201, new Response("Foto Registrada correctamente"));
+                  $datos=$userLogged->nombreusuario;
+               $http->setHTTPHeaders(201, new Response("Foto Registrada correctamente",$datos));
 
                 break;
 
