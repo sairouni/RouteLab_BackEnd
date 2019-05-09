@@ -14,7 +14,7 @@ try {
         switch (strtolower($funcion)) {
             case "mensaje":
                 $jsonlogin = json_decode(file_get_contents("php://input"), false);
-                $desc = $userLogged->idusuario;
+                $desc = $jsonlogin->idreceptor;
                 $datos = $objeto->getbyChat($desc);
                 $http->setHttpHeaders(200, new Response("Recomendacion", $datos));
                 break;
