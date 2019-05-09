@@ -134,11 +134,12 @@ try {
                     }
                 }
                   $datos=$userLogged->nombreusuario;
-               $http->setHTTPHeaders(201, new Response("Foto Registrada correctamente",$datos));
+               $http->setHTTPHeaders(201, new Response("Foto de Perfil Registrada correctamente",$datos));
 
                 break;
                 
-                 case "fotoback":
+              
+              case "fotoback":
                 //  $body = file_get_contents('php://input');
                 $files = $_FILES;
                 if (isset($files["photo"])) {
@@ -155,7 +156,7 @@ try {
                     }
                 }
                   $datos=$userLogged->nombreusuario;
-               $http->setHTTPHeaders(201, new Response("Foto Registrada correctamente",$datos));
+               $http->setHTTPHeaders(201, new Response("Foto background registrado",$datos));
 
                 break;
 

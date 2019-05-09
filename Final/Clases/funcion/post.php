@@ -13,6 +13,16 @@ try {
     if ($verb == 'GET') {
 
         switch (strtolower($funcion)) {
+            
+            case"todo":
+         if (empty($id)) {
+            $datos = $objeto->loadAll();
+            $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+        } else {
+            $objeto->load($id);
+            $http->setHttpHeaders(200, new Response("Lista $controller", (string) $objeto));
+        }
+                break;
             case "postbyid":
                 $datos = $objeto->getbyIdPost($id);
                 $datos2['media'] = $objeto->media($id);
