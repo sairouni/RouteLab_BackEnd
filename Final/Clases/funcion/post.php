@@ -17,6 +17,9 @@ try {
             case"todo":
          if (empty($id)) {
             $datos = $objeto->loadAll();
+            for($i = 0; $i < count($datos); $i++){
+                $datos[$i]['media'] = (string) $objeto->media($datos[$i]['idpost']);
+            }
             $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
         } else {
             $objeto->load($id);
