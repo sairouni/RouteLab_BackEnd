@@ -34,6 +34,12 @@ try {
 
                
                 break;
+            
+            case "verusu":
+                $idss = $userLogged->idusuario;
+                $datos = $objeto->postUsu($idss);
+                $http->setHttpHeaders(200, new Response("Todos los posts de este usuario", $datos));
+                break;
            
         
             case "ver":
