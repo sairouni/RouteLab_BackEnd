@@ -168,6 +168,28 @@ abstract class BasedeDatos {
         return $res->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+        function buscador_ciudad($ciudad){
+           
+                      
+ $res = self::$conn->query("select * from localidad where poblacion ='" .$ciudad."'"); 
+        return $res->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+           function buscador_categoria($categoria){
+           
+                      
+ $res = self::$conn->query("select * from post where tipo ='" .$categoria."'");
+ 
+        return $res->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
+
+
+
     
      function valores() {
 

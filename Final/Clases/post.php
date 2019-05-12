@@ -204,6 +204,8 @@ class Post extends BasedeDatos {
     }
 
     function savePost($json) {
+        var_dump($json);
+        die();
         $object = new Post();
         foreach ($json as $item => $value) {
             if ($item == 'usuario') {
