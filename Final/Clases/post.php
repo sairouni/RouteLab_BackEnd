@@ -225,6 +225,25 @@ class Post extends BasedeDatos {
             throw new Exception("No existe ese registro");
         }
     }
+    
+    function postUsu($id) {
+
+        $usuario = $this->getAll(['idusuario' => $id]);
+        if (!empty($usuario)) {
+            for ($i = 0; $i < count($usuario); $i++) {
+                $usu = $usuario[$i];
+                $us = new Usuario();
+                $us->load($usu['idusuario']);
+                $usuario[$i]['usuarioBuscado'] = $us->getnombreusuario();
+                $usuario[$i]['usuario']=$us->serialize();
+                //$comnetario[$i]['usuario']=$usuario->serialize();
+                
+            }
+            return $usuario;
+        } else {
+            throw new Exception("No existe ese registro");
+        }
+    }
 
 }
 

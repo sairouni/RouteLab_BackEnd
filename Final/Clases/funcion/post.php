@@ -37,8 +37,6 @@ try {
 
 
                 break;
-
-
             case "ver":
                 $datos = $objeto->getbyIdPost($id);
                 if ($datos == null) {
