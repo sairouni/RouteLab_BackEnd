@@ -119,7 +119,6 @@ class Social extends BasedeDatos {
    }
 
     function usuSeguido($id) {
-
         $usuario = $this->getAll(['idseguido' => $id]);
         if (!empty($usuario)) {
             for ($i = 0; $i < count($usuario); $i++) {
@@ -138,15 +137,11 @@ class Social extends BasedeDatos {
     }
     
     function usuSeguidoY($id, $ids) {
-
         $usuario = $this->getAll([ 'idseguido' => $id, 'idseguidor' => $ids]);
-        $usuario2 = $this->getAll([ 'idseguido' => $ids, 'idseguidor' => $id]);
-        if (!empty($usuario) && !empty($usuario2)) {
-            
-            return true;
+        if (!empty($usuario)) {
+            return "true";
         } else {
-            return false;
-//            throw new Exception("No existe ese registro");
+            return "false";
         }
     }
 
@@ -169,8 +164,8 @@ class Social extends BasedeDatos {
         }
     }
     function deleteSeguido($ids, $id) {
-       try {     $usuario = $this->getAll(['idseguidor'=>$ids, 'idseguido' => $id]);
-    
+       try {
+           $usuario = $this->getAll(['idseguidor'=>$ids, 'idseguido' => $id]);
         if (!empty($usuario)) {
             for ($i = 0; $i < count($usuario); $i++) {
            

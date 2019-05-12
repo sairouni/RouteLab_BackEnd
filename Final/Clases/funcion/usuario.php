@@ -32,7 +32,6 @@ try {
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
                 break;
             case "verusuario":
-                $id = $userLogged->idusuario;
                 $datos = $objeto->verUsu($id);
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
                 break;
@@ -138,8 +137,7 @@ try {
 
                 break;
                 
-              
-              case "fotoback":
+                 case "fotoback":
                 //  $body = file_get_contents('php://input');
                 $files = $_FILES;
                 if (isset($files["photo"])) {
