@@ -8,6 +8,8 @@ header('Content-type: application/json');
 header('Access-Control-Max-Age: 1000');
 header("Access-Control-Allow-Credentials: true");
 require_once '../asociada.php';
+require_once '../post.php';
+
 try {
 
     if ($verb == 'GET') {
@@ -61,11 +63,43 @@ try {
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
             case "post":
-                echo "HOLA HAHAHA";
- $files = $_FILES;
- var_dump($files);
-                 die();
-                $objeto = savePost($json);
+              $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                $localidad = new Localidad();
+                $pais = $jsonRegistro->localidad->pais;
+                $poblacion = $jsonRegistro->localidad->poblacion;
+                $direccion = $jsonRegistro->localidad->direccion;
+                $latitud = $jsonRegistro->localidad->latitud;
+                $longitud = $jsonRegistro->localidad->longitud;
+
+                $datos = $localidad->idexiste(['latitud' => $latitud, 'longitud' => $longitud]);
+                if ($datos == false) {
+                    // Registrar localidad
+                    foreach ($jsonRegistro->localidad as $c => $v) {
+                        //$c=="idlocalidad"
+                        $localidad->$c = $v;
+                    }
+                    $localidad->save();
+                } else {
+
+                    $localidad->load($datos);
+                }
+                    foreach ($jsonRegistro as $c => $v) {
+
+                        if ($c != "localidad") {
+                            $objeto->$c = $v;
+                        } else {
+
+                            $objeto->localidad = $localidad;
+                        }
+                    }
+                    $objeto->save();
+
+                    $http->setHttpHeaders(200, new Response("Lista $controller", (string) $objeto));
+               
+
+
+
+
                 break;
 
             case "foto":
@@ -85,9 +119,14 @@ try {
 
         case "buscadorpost":
         $jsonRegistro = json_decode(file_get_contents("php://input"), false);
-        $$categoriavalor = $jsonRegistro->valor;
-        $datos = $objeto->buscador_ruta($valor);
-        $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+        $categoriavalor = $jsonRegistro->valor;
+         $objeto->buscador_ruta($valor);
+          $datos = $objeto->loadAll();
+                    for ($i = 0; $i < count($datos); $i++) {
+                        $datos[$i]['media'] = (string) $objeto->media($datos[$i]['idpost']);
+                    }
+                    $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+ 
 
         break;
     
