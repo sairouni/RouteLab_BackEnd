@@ -41,8 +41,7 @@ try {
                 break;
             
                 case "verusu":
-                $idss = $userLogged->idusuario;
-                $datos = $objeto->postUsu($idss);
+                $datos = $objeto->postUsu($id);
                 $http->setHttpHeaders(200, new Response("Todos los posts de este usuario", $datos));
                 break;
             case "ver":
@@ -65,11 +64,11 @@ try {
             case "post":
               $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $localidad = new Localidad();
-                $pais = $jsonRegistro->localidad->pais;
-                $poblacion = $jsonRegistro->localidad->poblacion;
-                $direccion = $jsonRegistro->localidad->direccion;
-                $latitud = $jsonRegistro->localidad->latitud;
-                $longitud = $jsonRegistro->localidad->longitud;
+                $pais = $jsonRegistro->markers->pais;
+                $poblacion = $jsonRegistro->markers->poblacion;
+                $direccion = $jsonRegistro->markers->direccion;
+                $latitud = $jsonRegistro->markers->latitud;
+                $longitud = $jsonRegistro->markers->longitud;
 
                 $datos = $localidad->idexiste(['latitud' => $latitud, 'longitud' => $longitud]);
                 if ($datos == false) {
@@ -89,7 +88,9 @@ try {
                             $objeto->$c = $v;
                         } else {
 
-                            $objeto->localidad = $localidad;
+                            $objeto->markers = $localidad;
+                            $asociada= new asociada();
+                            $asociada->objeto;
                         }
                     }
                     $objeto->save();

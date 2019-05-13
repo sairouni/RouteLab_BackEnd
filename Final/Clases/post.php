@@ -225,8 +225,8 @@ class Post extends BasedeDatos {
     }
     
     function postUsu($id) {
-
-        $usuario = $this->getAll(['idusuario' => $id]);
+        $b = new usuario();
+        $usuario = $b->getAll(['idusuario' => $id]);
         if (!empty($usuario)) {
             for ($i = 0; $i < count($usuario); $i++) {
                 $usu = $usuario[$i];
