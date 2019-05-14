@@ -149,7 +149,7 @@ abstract class BasedeDatos {
         function buscador_ruta($valor){
            
                       
- $res = self::$conn->query("select * from post where titulo LIKE UPPER('%" .strtoupper($valor)."%') or descripcion LIKE UPPER('%" .strtoupper($valor)."%')");
+ $res = self::$conn->query("select * from post where titulo = UPPER('%" .strtoupper($valor)."%') or descripcion = UPPER('%" .strtoupper($valor)."%')");
  
         return $res->fetchAll(PDO::FETCH_ASSOC);
 }

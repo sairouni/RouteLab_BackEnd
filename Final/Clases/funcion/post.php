@@ -62,45 +62,20 @@ try {
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
             case "post":
-              $jsonRegistro = json_decode(file_get_contents("php://input"), false);
-                $localidad = new Localidad();
-                $pais = $jsonRegistro->markers->pais;
-                $poblacion = $jsonRegistro->markers->poblacion;
-                $direccion = $jsonRegistro->markers->direccion;
-                $latitud = $jsonRegistro->markers->latitud;
-                $longitud = $jsonRegistro->markers->longitud;
-
-                $datos = $localidad->idexiste(['latitud' => $latitud, 'longitud' => $longitud]);
-                if ($datos == false) {
-                    // Registrar localidad
-                    foreach ($jsonRegistro->localidad as $c => $v) {
-                        //$c=="idlocalidad"
-                        $localidad->$c = $v;
-                    }
-                    $localidad->save();
-                } else {
-
-                    $localidad->load($datos);
-                }
-                    foreach ($jsonRegistro as $c => $v) {
-
-                        if ($c != "localidad") {
-                            $objeto->$c = $v;
-                        } else {
-
-                            $objeto->markers = $localidad;
-                            $asociada= new asociada();
-                            $asociada->objeto;
-                        }
-                    }
-                    $objeto->save();
-
-                    $http->setHttpHeaders(200, new Response("Lista $controller", (string) $objeto));
-               
-
-
-
-
+              $jsonvalue = json_decode(file_get_contents("php://input"), false);
+              $titulo=$jsonvalue->post->titulo;
+              $objeto->setTitulo($titulo);
+              $descrip=$jsonvalue->post->description;
+              $objeto->setDescripcion($descrip);
+              $categoria=$jsonvalue->post->categoria;
+              $objeto->setCategoria($categoria);
+              $duracion=$jsonvalue->post->duracion;
+              $objeto->setDuracion($duracion);
+              $distancia=$jsonvalue->post->distancia;
+              $objeto->setDistancia($distancia);
+              $objeto->setUsuario($userLogged);
+              $objeto->save();
+              
                 break;
 
             case "foto":

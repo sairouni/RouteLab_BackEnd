@@ -21,10 +21,12 @@ class Post extends BasedeDatos {
     private $titulo;
     private $descripcion;
     private $usuario;
-    private $tipo;
+    private $distancia;
+    private $duracion;
+    private $categoria;
     private $imagen;
     private $idvaloracion;
-    private $num_fields = 7;
+    private $num_fields = 9;
 
     function __construct() {
         $show = ["titulo"];
@@ -34,6 +36,22 @@ class Post extends BasedeDatos {
 
     function getIdpost() {
         return $this->idpost;
+    }
+
+    function getDuracion() {
+        return $this->duracion;
+    }
+
+    function setDuracion($duracion) {
+        $this->duracion = $duracion;
+    }
+
+    function getDistancia() {
+        return $this->distancia;
+    }
+
+    function setDistancia($distancia) {
+        $this->distancia = $distancia;
     }
 
     function getTitulo() {
@@ -69,12 +87,12 @@ class Post extends BasedeDatos {
         $this->titulo = $titulo;
     }
 
-    function getTipo() {
-        return $this->tipo;
+    function getCategoria() {
+        return $this->categoria;
     }
 
-    function setTipo($tipo) {
-        $this->tipo = $tipo;
+    function setCategoria($categoria) {
+        $this->categoria = $categoria;
     }
 
     function setDescripcion($descripcion) {
@@ -90,7 +108,7 @@ class Post extends BasedeDatos {
     function setidvaloracion($id) {
         $usuario = new Valoracion();
         $usuario->load($id);
-        $this->idvaloracion = $valoracion;
+        $this->idvaloracion = $id;
     }
 
     function setImagen($imagen) {
@@ -122,7 +140,9 @@ class Post extends BasedeDatos {
             $this->idpost = $id;
             $this->titulo = $post['titulo'];
             $this->descripcion = $post['descripcion'];
-            $this->tipo = $post['tipo'];
+            $this->categoria = $post['categoria'];
+            $this->duracion = $post['duracion'];
+            $this->distancia = $post['distancia'];
             $usuario = new Usuario();
             $usuario->load($post['idusuario']);
             $this->usuario = $usuario;
@@ -144,22 +164,29 @@ class Post extends BasedeDatos {
             $this->usuario = null;
             $this->idvaloracion = null;
             $this->imagen = null;
-            $this->tipo = null;
+            $this->categoria = null;
+            $this->distancia = null;
+            $this->duracion = null;
         } else {
             throw new Exception("No hay registro para borrar");
         }
     }
 
     function save() {
+        print("HOlaqq");
         $post = $this->valores();
         unset($post['idpost']);
-        $this->usuario->save();
+        print("HAHAHAHA");
+        
         $post['idusuario'] = $this->usuario->idusuario;
+        
         unset($post['usuario']);
         if (empty($this->idpost)) {
+             print("adios");
             $this->insert($post);
             $this->idpost = self::$conn->lastInsertId();
         } else {
+            print("adeu");
             $this->update($this->idpost, $post);
         }
     }
@@ -212,6 +239,7 @@ class Post extends BasedeDatos {
                 $object->$item = $value;
             }
         }
+        $object->save();
         return $object;
     }
 
@@ -223,7 +251,7 @@ class Post extends BasedeDatos {
             throw new Exception("No existe ese registro");
         }
     }
-    
+
     function postUsu($id) {
         $b = new usuario();
         $usuario = $b->getAll(['idusuario' => $id]);
@@ -233,9 +261,8 @@ class Post extends BasedeDatos {
                 $us = new Usuario();
                 $us->load($usu['idusuario']);
                 $usuario[$i]['usuarioBuscado'] = $us->getnombreusuario();
-                $usuario[$i]['usuario']=$us->serialize();
+                $usuario[$i]['usuario'] = $us->serialize();
                 //$comnetario[$i]['usuario']=$usuario->serialize();
-                
             }
             return $usuario;
         } else {
