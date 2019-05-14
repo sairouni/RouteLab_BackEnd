@@ -9,7 +9,7 @@ header('Access-Control-Max-Age: 1000');
 header("Access-Control-Allow-Credentials: true");
 require_once '../asociada.php';
 require_once '../post.php';
-
+require_once '../recasociada.php';
 try {
 
     if ($verb == 'GET') {
@@ -39,8 +39,8 @@ try {
 
 
                 break;
-            
-                case "verusu":
+
+            case "verusu":
                 $datos = $objeto->postUsu($id);
                 $http->setHttpHeaders(200, new Response("Todos los posts de este usuario", $datos));
                 break;
@@ -62,24 +62,54 @@ try {
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
             case "post":
-              $jsonvalue = json_decode(file_get_contents("php://input"), false);
-              $titulo=$jsonvalue->post->titulo;
-              $objeto->setTitulo($titulo);
-              $descrip=$jsonvalue->post->description;
-              $objeto->setDescripcion($descrip);
-              $categoria=$jsonvalue->post->categoria;
-              $objeto->setCategoria($categoria);
-              $duracion=$jsonvalue->post->duracion;
-              $objeto->setDuracion($duracion);
-              $distancia=$jsonvalue->post->distancia;
-              $objeto->setDistancia($distancia);
-              $objeto->setUsuario($userLogged);
-              $objeto->save();
-              
+                $jsonvalue = json_decode(file_get_contents("php://input"), false);
+                $titulo = $jsonvalue->post->titulo;
+                $objeto->setTitulo($titulo);
+                $descrip = $jsonvalue->post->descripcion;
+                $objeto->setDescripcion($descrip);
+                $categoria = $jsonvalue->post->categoria;
+                $objeto->setCategoria($categoria);
+                $duracion = $jsonvalue->post->duracion;
+                $objeto->setDuracion($duracion);
+                $distancia = $jsonvalue->post->distancia;
+                $objeto->setDistancia($distancia);
+                $objeto->setUsuario($userLogged);
+                $objeto->save();
+                $markers = $jsonvalue->post->markers;
+                $localidad = new Localidad();
+                foreach ($markers as $marker) {
+
+                    foreach ($marker as $key => $value) {
+
+                        $localidad->$key = $value;
+                    }
+
+                    $latitud = $localidad->latitud;
+                    $longitud = $localidad->longitud;
+                    $datos = $localidad->idexiste(['latitud' => $latitud, 'longitud' => $longitud]);
+                    if ($datos == false) {
+                        $localidad->save();
+                    } else {
+                        $localidad->load($datos);
+                    }
+                }
+
+                $asociada = new Asociada();
+                $asociada->setidLocalidad($localidad->idlocalidad);
+                $asociada->setidPost($objeto->idpost);
+                $asociada->save();
+                $recaso = $jsonvalue->post->recs;
+                foreach ($recaso as $rec) {
+                     $recasociada = new RecAsociada();
+                    $recasociada->setidRec($rec);
+                    $recasociada->setidPost($objeto->idpost);
+                    $recasociada->save();
+                }
+                $http->setHttpHeaders(200, new Response("Asociada insertado correctamente", $objeto->serialize()));
                 break;
 
             case "foto":
-               
+
                 $file_post = $_FILES;
                 $file_ary = array();
                 $file_count = count($file_post['photo']);
@@ -91,59 +121,57 @@ try {
                     }
                 }
                 return $file_ary;
-        break;
+                break;
 
-        case "buscadorpost":
-        $jsonRegistro = json_decode(file_get_contents("php://input"), false);
-        $categoriavalor = $jsonRegistro->valor;
-         $objeto->buscador_ruta($valor);
-          $datos = $objeto->loadAll();
-                    for ($i = 0; $i < count($datos); $i++) {
-                        $datos[$i]['media'] = (string) $objeto->media($datos[$i]['idpost']);
-                    }
-                    $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
- 
+            case "buscadorpost":
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                $categoriavalor = $jsonRegistro->valor;
+                $objeto->buscador_ruta($valor);
+                $datos = $objeto->loadAll();
+                for ($i = 0; $i < count($datos); $i++) {
+                    $datos[$i]['media'] = (string) $objeto->media($datos[$i]['idpost']);
+                }
+                $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
 
-        break;
-    
-    
+
+                break;
+
+
             case "buscadormedio":
-        $jsonRegistro = json_decode(file_get_contents("php://input"), false);
-          
-        if(!isset($jsonRegistro->poblacion )){
-          $categoria= $jsonRegistro->categoria;       
-        $datos = $objeto->buscador_categoria($categoria);
-        $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
-            
-        }elseif(!isset($jsonRegistro->categoria)){
-        $ciudad= $jsonRegistro->poblacion; 
-        $datos = $objeto->buscador_ciudad($ciudad);
-        $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
-            
-        } else {
-            
-        $datos = $objeto->buscador_categoria($categoria);
-        $datos2 = $objeto->buscador_ciudad($ciudad);
-        $resultado = array_merge($datos, $datos2);
-        $http->setHttpHeaders(200, new Response("Lista $controller", $resultado));
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+
+                if (!isset($jsonRegistro->poblacion)) {
+                    $categoria = $jsonRegistro->categoria;
+                    $datos = $objeto->buscador_categoria($categoria);
+                    $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+                } elseif (!isset($jsonRegistro->categoria)) {
+                    $ciudad = $jsonRegistro->poblacion;
+                    $datos = $objeto->buscador_ciudad($ciudad);
+                    $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
+                } else {
+
+                    $datos = $objeto->buscador_categoria($categoria);
+                    $datos2 = $objeto->buscador_ciudad($ciudad);
+                    $resultado = array_merge($datos, $datos2);
+                    $http->setHttpHeaders(200, new Response("Lista $controller", $resultado));
+                }
+
+
+
+                break;
+
+
+            case "buscador":
+                $jsonRegistro = json_decode(file_get_contents("php://input"), false);
+                $valor = $jsonRegistro->valor;
+                $datos = $objeto->buscador_ruta($valor);
+                $datos2 = $objeto->buscador_usu($valor);
+                $resultado = array_merge($datos, $datos2);
+
+                $http->setHttpHeaders(200, new Response("Lista $controller", $resultado));
+
+                break;
         }
-        
-     
-
-        break;
-
-
-        case "buscador":
-        $jsonRegistro = json_decode(file_get_contents("php://input"), false);
-        $valor = $jsonRegistro->valor;
-        $datos = $objeto->buscador_ruta($valor);
-        $datos2 = $objeto->buscador_usu($valor);
-        $resultado = array_merge($datos, $datos2);
-
-        $http->setHttpHeaders(200, new Response("Lista $controller", $resultado));
-
-        break;
-    }
     }
 } catch (Exception $ex) {
     

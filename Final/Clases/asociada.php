@@ -69,9 +69,14 @@ class Asociada extends BasedeDatos {
         $asociada = $this->getById($id);
         if (!empty($asociada)) {
             $this->idasociada = $id;
-            $this->localidad = $asociada['idlocalidad'];
-            $this->post = $asociada['idpost'];
-            $asociada = new Asociada();
+            $localidad = new Localidad();
+            $post = new Post();
+            $localidad->load($asociada['idlocalidad']);
+            $this->idlocalidad = $localidad->serialize();
+            $post->load($asociada['idpost']);
+            $this->idpost = $post->serialize();
+           } else {
+            throw new Exception("No existe ese registro");
         }
     }
 
@@ -96,7 +101,7 @@ class Asociada extends BasedeDatos {
             $this->update($this->idasociada, $asociada);
         }
     }
-    
+
     public function getbyIdAso($id) {
         $post = $this->getAll(['idpost' => $id]);
         if (!empty($post)) {
@@ -105,11 +110,5 @@ class Asociada extends BasedeDatos {
             throw new Exception("No existe ese registro");
         }
     }
-    
-
-    
-    
-    
-    
 
 }

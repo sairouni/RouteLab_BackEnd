@@ -1,108 +1,104 @@
 <?php
+
 require_once 'basededatos.php';
 require_once 'recomendaciones.php';
 require_once 'post.php';
 
-class RecAsociada extends BasedeDatos{
-    
-    private $idrecpost;//int
+class RecAsociada extends BasedeDatos {
+
+    private $idrecpost; //int
     private $idpost;
     private $idrec;
-    private $num_fields=3;
+    private $num_fields = 3;
 
-        
-      function __construct() {
-        $show=["idrecpost"]; //duda
+    function __construct() {
+        $show = ["idrecpost"]; //duda
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
-       parent::__construct("recasociada","idrecpost", $fields, $show);
-        
+        parent::__construct("recasociada", "idrecpost", $fields, $show);
     }
-    
-    function getidRecpost(){
+
+    function getidRecpost() {
         return $this->idrecpost;
     }
-    
-    
-    function getidRec(){
+
+    function getidRec() {
         return $this->idrec;
     }
-    
-    
-    function getidPost(){
-        
+
+    function getidPost() {
+
         return $this->idpost;
-        
     }
-    
-    
-    function setidRec( $rec){
-        
-        $this->idrec=$rec;
-    }
-    
-     
-    function setidPost( $post){
-        $this->idpost=$post;
-    }
-    
-    
-      function __get($name) {
-       $metodo = "get$name";
-       if (method_exists($this, $metodo)) {
-           return $this->$metodo();
-       } else {
-           throw new Exception("Propiedad no encontrada");
-       }
-   }
-   //geter magico
 
-   function __set($name, $value) {
-       $metodo = "set$name";
-       if (method_exists($this, $metodo)) {
-           return $this->$metodo($value);
-       } else {
-           throw new Exception("Propiedad  no encontrada");
-       }
-   } //seter maquico 
-   
+    function setidRec($rec) {
 
-    function load($id){
-        
-        $redAsociada =$this->getById($id);
-        if(!empty($redAsociada)){
-            $this->idrecpost=$id;
+        $this->idrec = $rec;
+    }
+
+    function setidPost($post) {
+        $this->idpost = $post;
+    }
+
+    function __get($name) {
+        $metodo = "get$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo();
+        } else {
+            throw new Exception("Propiedad no encontrada");
+        }
+    }
+
+    //geter magico
+
+    function __set($name, $value) {
+        $metodo = "set$name";
+        if (method_exists($this, $metodo)) {
+            return $this->$metodo($value);
+        } else {
+            throw new Exception("Propiedad  no encontrada");
+        }
+    }
+
+//seter maquico 
+
+    function load($id) {
+
+        $redAsociada = $this->getById($id);
+        if (!empty($redAsociada)) {
+            $this->idrecpost = $id;
             $this->idpost = $redAsociada['idpost'];
             $this->idrec = $redAsociada['idrec'];
-           // $recomendaciones= new Recomendaciones();
-          
+            // $recomendaciones= new Recomendaciones();
         } //final del if load
-        
-    }//final del load
-    
-       function delete() {
-       if (!empty($this->idrecpost)) {
-           $this->deleteById($this->idrecpost);
-           $this->idrecpost = null;
-           $this->idpost = null;
-           $this->idrec = null;
-       } else {
-           throw new Exception("No hay registro para borrar");
-       }
-   }//final del delete
-   
-    
-   function save(){
-       $recasociada= $this->valores();
-       unset($recasociada['idrecpost']);
-           if (empty($this->idrecpost)) {
-           $this->insert($recasociada);
-           $this->idrecpost = self::$conn->lastInsertId();
-       } else {
-           $this->update($this->idrecpost, $recasociada);
-       }
-       
-   }
-   function recomendacion($id) {
+    }
+
+//final del load
+
+    function delete() {
+        if (!empty($this->idrecpost)) {
+            $this->deleteById($this->idrecpost);
+            $this->idrecpost = null;
+            $this->idpost = null;
+            $this->idrec = null;
+        } else {
+            throw new Exception("No hay registro para borrar");
+        }
+    }
+
+//final del delete
+
+    function save() {
+        $recasociada = $this->valores();
+        unset($recasociada['idrecpost']);
+        if (empty($this->idrecpost)) {
+            $this->insert($recasociada);
+            $this->idrecpost = self::$conn->lastInsertId();
+        } else {
+            $this->update($this->idrecpost, $recasociada);
+        }
+    }
+
+    function recomendacion($id) {
 
         $rec = $this->getAll(['idpost' => $id]);
         if (!empty($rec)) {
@@ -111,7 +107,7 @@ class RecAsociada extends BasedeDatos{
                 $us = new Recomendaciones();
                 $us->load($usu['idrec']);
                 $rec[$i]['recomendacion'] = $us->getDescripcion();
-                $rec[$i]['descripcion']=$us->serialize();
+                $rec[$i]['descripcion'] = $us->serialize();
                 //$comnetario[$i]['usuario']=$usuario->serialize();
             }
             return $rec;
@@ -119,7 +115,8 @@ class RecAsociada extends BasedeDatos{
             throw new Exception("No existe ese registro");
         }
     }
-   public function getbyIdRec($id) {
+
+    public function getbyIdRec($id) {
         $post = $this->getAll(['idpost' => $id]);
         if (!empty($post)) {
             return $post;
@@ -127,7 +124,5 @@ class RecAsociada extends BasedeDatos{
             throw new Exception("No existe ese registro");
         }
     }
-    
-    
-    
+
 }

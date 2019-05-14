@@ -24,14 +24,14 @@ class Post extends BasedeDatos {
     private $distancia;
     private $duracion;
     private $categoria;
-    private $imagen;
-    private $idvaloracion;
-    private $num_fields = 9;
+    private $valoracion;
+    private $num_fields = 8;
 
     function __construct() {
         $show = ["titulo"];
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("post", "idpost", $fields, $show);
+        $this->valoracion = null;
     }
 
     function getIdpost() {
@@ -67,20 +67,16 @@ class Post extends BasedeDatos {
         return $this->usuario;
     }
 
-    function getValoracion(): Valoracion {
-        return $this->idvaloracion;
-    }
-
-    function getImagen() {
-        return $this->imagen;
+    function getValoracion() {
+        return $this->valoracion;
     }
 
     function setUsuario(Usuario $usuario) {
         $this->usuario = $usuario;
     }
 
-    function setValoracion(Valoracion $idvaloracion) {
-        $this->idvaloracion = $idvaloracion;
+    function setValoracion(Valoracion $valoracion) {
+        $this->valoracion = $valoracion;
     }
 
     function setTitulo($titulo) {
@@ -103,16 +99,6 @@ class Post extends BasedeDatos {
         $usuario = new Usuario();
         $usuario->load($id);
         $this->usuario = $usuario;
-    }
-
-    function setidvaloracion($id) {
-        $usuario = new Valoracion();
-        $usuario->load($id);
-        $this->idvaloracion = $id;
-    }
-
-    function setImagen($imagen) {
-        $this->imagen = $imagen;
     }
 
     function __get($name) {
@@ -148,8 +134,7 @@ class Post extends BasedeDatos {
             $this->usuario = $usuario;
             $valoracion = new Valoracion();
             $valoracion->load($post['idvaloracion']);
-            $this->idvaloracion = $valoracion;
-            $this->imagen = $post['imagen'];
+            $this->valoracion = $valoracion;
         } else {
             throw new Exception("No existe ese registro");
         }
@@ -162,8 +147,7 @@ class Post extends BasedeDatos {
             $this->titulo = null;
             $this->descripcion = null;
             $this->usuario = null;
-            $this->idvaloracion = null;
-            $this->imagen = null;
+            $this->valoracion = null;
             $this->categoria = null;
             $this->distancia = null;
             $this->duracion = null;
@@ -173,20 +157,22 @@ class Post extends BasedeDatos {
     }
 
     function save() {
-        print("HOlaqq");
         $post = $this->valores();
         unset($post['idpost']);
-        print("HAHAHAHA");
-        
+
         $post['idusuario'] = $this->usuario->idusuario;
-        
         unset($post['usuario']);
+
+        if ($this->valoracion == null) {
+            $post["idvaloracion"] = NULL;
+        } else {
+            $post["idvaloracion"] = $this->valoracion->idvaloracion;
+        }
+        unset($post['valoracion']);
         if (empty($this->idpost)) {
-             print("adios");
             $this->insert($post);
             $this->idpost = self::$conn->lastInsertId();
         } else {
-            print("adeu");
             $this->update($this->idpost, $post);
         }
     }
