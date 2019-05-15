@@ -141,7 +141,7 @@ abstract class BasedeDatos {
     function buscador_usu($nombreusuario) {
 
 
-        $res = self::$conn->query("select * from usuario where nombreusuario ='" . $nombreusuario . "'");
+        $res = self::$conn->query("select * from usuario where nombreusuario LIKE '%" . ($nombreusuario) . "%'");
 
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -77,13 +77,11 @@ try {
                 $objeto->save();
                 $markers = $jsonvalue->post->markers;
                 $localidad = new Localidad();
+                $asociada = new Asociada();
                 foreach ($markers as $marker) {
-
                     foreach ($marker as $key => $value) {
-
                         $localidad->$key = $value;
                     }
-
                     $latitud = $localidad->latitud;
                     $longitud = $localidad->longitud;
                     $datos = $localidad->idexiste(['latitud' => $latitud, 'longitud' => $longitud]);
@@ -92,12 +90,10 @@ try {
                     } else {
                         $localidad->load($datos);
                     }
+                    $asociada->setidLocalidad($localidad->idlocalidad);
+                    $asociada->setidPost($objeto->idpost);
+                    $asociada->save();
                 }
-
-                $asociada = new Asociada();
-                $asociada->setidLocalidad($localidad->idlocalidad);
-                $asociada->setidPost($objeto->idpost);
-                $asociada->save();
                 $recaso = $jsonvalue->post->recs;
                 foreach ($recaso as $rec) {
                     $recasociada = new RecAsociada();
