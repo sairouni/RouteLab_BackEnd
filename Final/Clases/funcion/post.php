@@ -110,17 +110,30 @@ try {
 
             case "foto":
 
-                $file_post = $_FILES;
-                $file_ary = array();
-                $file_count = count($file_post['photo']);
-                $file_keys = array_keys($file_post);
-
-                for ($i = 0; $i < $file_count; $i++) {
-                    foreach ($file_keys as $key) {
-                        $file_ary[$i][$key] = $file_post[$key][$i];
+                $files = $_FILES;
+        
+                if (isset($files["images"])) {
+                    if ($files["images"] != "undefined") { 
+                        try { 
+                            
+                            for($i=0;$i<count($files["images"]["tmp_name"]);$i++){
+                           // $ruta = $_SERVER['DOCUMENT_ROOT']."/assets/uploads/posts/$id/".$i.".jpg";
+                                
+                             $path = "C:/Users/isma_/Desktop/posts/$id";
+                             mkdir($path,0777);
+                            $ruta = "C:/Users/isma_/Desktop/posts/$id/".$i.".jpg";
+                   
+                            move_uploaded_file($files["images"]["tmp_name"][$i],$ruta);
+                            }
+                        } catch (Exception $e) {
+                            $http->setHttpHeaders(200, new Response("Bad request Error No User With This Token"));
+                            die();
+                        }
+                       
                     }
                 }
-                return $file_ary;
+                  $datos=$userLogged->nombreusuario;
+               $http->setHTTPHeaders(201, new Response("Foto de Perfil Registrada correctamente",$datos));
                 break;
 
             case "buscadorpost":
