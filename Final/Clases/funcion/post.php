@@ -100,7 +100,7 @@ try {
                 $asociada->save();
                 $recaso = $jsonvalue->post->recs;
                 foreach ($recaso as $rec) {
-                     $recasociada = new RecAsociada();
+                    $recasociada = new RecAsociada();
                     $recasociada->setidRec($rec);
                     $recasociada->setidPost($objeto->idpost);
                     $recasociada->save();
@@ -111,29 +111,48 @@ try {
             case "foto":
 
                 $files = $_FILES;
-        
+
                 if (isset($files["images"])) {
-                    if ($files["images"] != "undefined") { 
-                        try { 
-                            
-                            for($i=0;$i<count($files["images"]["tmp_name"]);$i++){
-                           // $ruta = $_SERVER['DOCUMENT_ROOT']."/assets/uploads/posts/$id/".$i.".jpg";
-                                
-                             $path = "C:/Users/isma_/Desktop/posts/$id";
-                             mkdir($path,0777);
-                            $ruta = "C:/Users/isma_/Desktop/posts/$id/".$i.".jpg";
-                   
-                            move_uploaded_file($files["images"]["tmp_name"][$i],$ruta);
+                    if ($files["images"] != "undefined") {
+                        try {
+                            $moved = false;
+                            for ($i = 0; $i < count($files["images"]["tmp_name"]); $i++) {
+                                // $ruta = $_SERVER['DOCUMENT_ROOT']."/assets/uploads/posts/$id/".$i.".jpg";
+
+                                $path = $_SERVER['DOCUMENT_ROOT'] . "/assets/uploads/posts/$id/";
+
+
+                                if (!is_dir($path)) {
+                                    mkdir($path, 0777);
+                                }
+
+                                $ruta = $_SERVER['DOCUMENT_ROOT'] . "/assets/uploads/posts/$id/" . $i . ".jpg";
+
+                                if (move_uploaded_file($files["images"]["tmp_name"][$i], $ruta)) {
+                                    $moved = true;
+                                } else {
+                                    $moved = false;
+                                }
+                            }
+
+                            if ($moved) {
+                                $post = new Post();
+
+                                $post->load($id);
+
+
+                                $post->setNum_fotos(count($files["images"]["tmp_name"]));
+                                $post->save();
                             }
                         } catch (Exception $e) {
-                            $http->setHttpHeaders(200, new Response("Bad request Error No User With This Token"));
+                            $http->setHttpHeaders(200, new Response("Error on file $id " . $e->getMessage()));
                             die();
                         }
-                       
                     }
                 }
-                  $datos=$userLogged->nombreusuario;
-               $http->setHTTPHeaders(201, new Response("Foto de Perfil Registrada correctamente",$datos));
+
+
+                $http->setHTTPHeaders(201, new Response("Foto de Perfil Registrada correctamente", $datos));
                 break;
 
             case "buscadorpost":

@@ -25,13 +25,15 @@ class Post extends BasedeDatos {
     private $duracion;
     private $categoria;
     private $valoracion;
-    private $num_fields = 8;
+    private $num_fotos;
+    private $num_fields = 9;
 
     function __construct() {
         $show = ["titulo"];
         $fields = array_slice(array_keys(get_object_vars($this)), 0, $this->num_fields);
         parent::__construct("post", "idpost", $fields, $show);
         $this->valoracion = null;
+        $this->num_fotos = null;
     }
 
     function getIdpost() {
@@ -69,6 +71,14 @@ class Post extends BasedeDatos {
 
     function getValoracion() {
         return $this->valoracion;
+    }
+
+    function getNum_fotos() {
+        return $this->num_fotos;
+    }
+
+    function setNum_fotos($num_fotos) {
+        $this->num_fotos = $num_fotos;
     }
 
     function setUsuario(Usuario $usuario) {
@@ -120,6 +130,7 @@ class Post extends BasedeDatos {
     }
 
     function load($id) {
+        
         $post = $this->getById($id);
 
         if (!empty($post)) {
@@ -129,12 +140,15 @@ class Post extends BasedeDatos {
             $this->categoria = $post['categoria'];
             $this->duracion = $post['duracion'];
             $this->distancia = $post['distancia'];
+            $this->num_fotos = $post['num_fotos'];
             $usuario = new Usuario();
             $usuario->load($post['idusuario']);
             $this->usuario = $usuario;
-            $valoracion = new Valoracion();
-            $valoracion->load($post['idvaloracion']);
-            $this->valoracion = $valoracion;
+            if (!empty($post['idvaloracion'])) {
+                $valoracion = new Valoracion();
+                $valoracion->load($post['idvaloracion']);
+                $this->valoracion = $valoracion;
+            }
         } else {
             throw new Exception("No existe ese registro");
         }
@@ -151,6 +165,7 @@ class Post extends BasedeDatos {
             $this->categoria = null;
             $this->distancia = null;
             $this->duracion = null;
+            $this->num_fotos = null;
         } else {
             throw new Exception("No hay registro para borrar");
         }

@@ -90,9 +90,9 @@ abstract class BasedeDatos {
      * Esta función nos devuelve el elemento de la tabla que tenga este id
      * @param int $id El id de la fila
      */
-     function getById($id) {
+     function getById($id) {      
         $res = self::$conn->query("select * from " . $this->table . " where "
-                . $this->idField . "=" . $id);
+                . $this->idField . "=" . $id);  
         return $res->fetch(PDO::FETCH_ASSOC);
     }
 
