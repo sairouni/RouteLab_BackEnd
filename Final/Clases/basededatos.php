@@ -12,7 +12,6 @@ abstract class BasedeDatos {
     protected $showFields; //Array con los nombres de los campos a mostrar en determinadas consultas (opcional)
     static protected $conn;
 
-
     /**
      * El constructor necesita el nombre de la tabla y el nombre del campo clave
      * Opcionalmente podemos indicar los campos que tiene la tabla y aquellos que queremos mostrar
@@ -86,13 +85,14 @@ abstract class BasedeDatos {
             echo $ex->getMessage();
         }
     }
+
     /**
      * Esta función nos devuelve el elemento de la tabla que tenga este id
      * @param int $id El id de la fila
      */
-     function getById($id) {      
+    function getById($id) {
         $res = self::$conn->query("select * from " . $this->table . " where "
-                . $this->idField . "=" . $id);  
+                . $this->idField . "=" . $id);
         return $res->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -137,53 +137,45 @@ abstract class BasedeDatos {
             echo $ex->getMessage();
         }
     }
-    
-            function buscador_usu($nombreusuario){
-           
-                      
- $res = self::$conn->query("select * from usuario where nombreusuario ='" .$nombreusuario."'");
- 
+
+    function buscador_usu($nombreusuario) {
+
+
+        $res = self::$conn->query("select * from usuario where nombreusuario ='" . $nombreusuario . "'");
+
         return $res->fetchAll(PDO::FETCH_ASSOC);
-}
+    }
 
-        function buscador_ruta($valor){
-           
-                      
- $res = self::$conn->query("select * from post where titulo = UPPER('%" .strtoupper($valor)."%') or descripcion = UPPER('%" .strtoupper($valor)."%')");
- 
+    function buscador_ruta($valor) {
+
+
+        $res = self::$conn->query("select * from post where titulo LIKE '%" . ($valor) . "%' or descripcion LIKE '%" . ($valor) . "%'");
+
         return $res->fetchAll(PDO::FETCH_ASSOC);
-}
+    }
+
+    function buscador_ciudad($ciudad) {
 
 
-        function buscador_ciudad($ciudad){
-           
-                      
- $res = self::$conn->query("select * from localidad where poblacion ='" .$ciudad."'"); 
+        $res = self::$conn->query("select * from localidad where poblacion ='" . $ciudad . "'");
         return $res->fetchAll(PDO::FETCH_ASSOC);
-}
+    }
+
+    function buscador_categoria($categoria) {
 
 
-           function buscador_categoria($categoria){
-           
-                      
- $res = self::$conn->query("select * from post where categoria ='" .$categoria."'");
- 
+        $res = self::$conn->query("select * from post where categoria ='" . $categoria . "'");
+
         return $res->fetchAll(PDO::FETCH_ASSOC);
-}
+    }
 
-
-
-
-
-
-    
-     function valores() {
+    function valores() {
 
         $valores = array_map(function($v) {
-            if (gettype($this->$v)=="object"){
-                return (string)$this->$v;
-            }else {
-            return $this->$v;
+            if (gettype($this->$v) == "object") {
+                return (string) $this->$v;
+            } else {
+                return $this->$v;
             }
         }, $this->fields);
         return array_combine($this->fields, $valores);
@@ -193,11 +185,10 @@ abstract class BasedeDatos {
         return $this->valores();
     }
 
-    
-    
-    function busc($valores){
+    function busc($valores) {
         return $this->buscador($valores);
     }
+
     function loadAll() {
         $post = $this->getAll();
         return $post;
@@ -209,48 +200,36 @@ abstract class BasedeDatos {
 
     abstract function delete();
 
-    function existe($dato) { 
-        $res=$this->getAll($dato);
+    function existe($dato) {
+        $res = $this->getAll($dato);
         return !empty($res);
-        
     }
-    
-    function idexiste($body){
+
+    function idexiste($body) {
         $aa = $this->getAll($body);
-        if(empty($aa)){
-            
+        if (empty($aa)) {
+
             return false;
-            
-        }else{
-            
+        } else {
+
             return $aa[0][$this->idField];
-            
         }
-        
     }
 
-    
-        function existeft($body){
+    function existeft($body) {
         $aa = $this->getAll($body);
-        if(empty($aa)){
-            
+        if (empty($aa)) {
+
             return false;
-            
-        }else{
-            
-          return true;
-            
+        } else {
+
+            return true;
         }
-        
     }
-    
-function __toString() {
-    $a= json_encode($this->valores());
-    return $a;
-}
 
-
-
-
+    function __toString() {
+        $a = json_encode($this->valores());
+        return $a;
+    }
 
 }

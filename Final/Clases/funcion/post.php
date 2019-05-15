@@ -62,7 +62,7 @@ try {
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
             case "post":
-                $jsonvalue = json_decode(file_get_contents("php://input"), false);
+                $jsonvalue = json_decode(json_decode(file_get_contents("php://input"), false));
                 $titulo = $jsonvalue->post->titulo;
                 $objeto->setTitulo($titulo);
                 $descrip = $jsonvalue->post->descripcion;
@@ -158,11 +158,11 @@ try {
             case "buscadorpost":
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $categoriavalor = $jsonRegistro->valor;
-                $objeto->buscador_ruta($valor);
-                $datos = $objeto->loadAll();
-                for ($i = 0; $i < count($datos); $i++) {
-                    $datos[$i]['media'] = (string) $objeto->media($datos[$i]['idpost']);
-                }
+                $datos = $objeto->buscador_ruta($categoriavalor);
+//               $datos = $objeto->loadAll();
+//                for ($i = 0; $i < count($datos); $i++) {
+//                    $datos[$i]['media'] = (string) $objeto->media($datos[$i]['idpost']);
+//                }
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
 
 

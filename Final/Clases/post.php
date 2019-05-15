@@ -205,11 +205,17 @@ class Post extends BasedeDatos {
         $b = new Valoracion();
         $valores = $b->getValoracionByPost($id);
         $med = 0;
+       
         foreach ($valores as $valor) {
 
             $med += $valor['valoracion'];
         }
-        return $med / count($valores);
+      
+        if($med !=0){
+              return $med / count($valores);
+        }else{
+            return 0;
+        }
     }
 
     function markers($id) {
