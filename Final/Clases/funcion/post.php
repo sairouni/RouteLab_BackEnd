@@ -62,7 +62,7 @@ try {
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
             case "post":
-                $jsonvalue = json_decode(json_decode(file_get_contents("php://input"), false));
+                $jsonvalue = json_decode(file_get_contents("php://input"), false);
                 $titulo = $jsonvalue->post->titulo;
                 $objeto->setTitulo($titulo);
                 $descrip = $jsonvalue->post->descripcion;
@@ -77,7 +77,6 @@ try {
                 $objeto->save();
                 $markers = $jsonvalue->post->markers;
                 $localidad = new Localidad();
-                $asociada = new Asociada();
                 foreach ($markers as $marker) {
                     foreach ($marker as $key => $value) {
                         $localidad->$key = $value;
@@ -90,10 +89,13 @@ try {
                     } else {
                         $localidad->load($datos);
                     }
+                    $asociada = new Asociada();
                     $asociada->setidLocalidad($localidad->idlocalidad);
                     $asociada->setidPost($objeto->idpost);
                     $asociada->save();
                 }
+
+
                 $recaso = $jsonvalue->post->recs;
                 foreach ($recaso as $rec) {
                     $recasociada = new RecAsociada();
@@ -103,6 +105,7 @@ try {
                 }
                 $http->setHttpHeaders(200, new Response("Asociada insertado correctamente", $objeto->serialize()));
                 break;
+
 
             case "foto":
 
