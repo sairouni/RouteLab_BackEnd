@@ -11,10 +11,16 @@ try {
 
     if ($verb == 'GET') {
    switch (strtolower($funcion)) {
-        }
-    } else {
-        
-    }
+       case "comprobar":
+            $iduser = $userLogged->idusuario;
+                $datos = $objeto->voteUser($iduser, $id);
+                $http->setHTTPHeaders(200, new Response("Usuario Ha Votado?", $datos));
+           break;
+       
+       
+       
+   }
+    } 
 
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {

@@ -114,4 +114,14 @@ class Valoracion extends BasedeDatos {
     function getValoracionByPost($id){
        return $this->getAll(['idpost'=>$id]);
     }
+    
+      function voteUser($iduser, $id)
+    {
+        $dates = $this->getAll(['idusuario' => $iduser, 'idpost' => $id]);
+        if (count($dates) == 0) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
