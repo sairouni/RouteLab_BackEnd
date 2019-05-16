@@ -169,6 +169,12 @@ abstract class BasedeDatos {
         return $res->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    function baselocalidades($idlocalidades) {
+        $st = self::$conn->prepare("select * from asociada where idlocalidad in (" . implode(",", $idlocalidades) . ")");
+        $st->execute();
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     function valores() {
 
         $valores = array_map(function($v) {

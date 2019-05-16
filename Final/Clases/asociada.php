@@ -110,5 +110,5 @@ class Asociada extends BasedeDatos {
             throw new Exception("No existe ese registro");
         }
     }
-
+  
 }

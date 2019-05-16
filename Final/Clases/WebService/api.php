@@ -23,7 +23,7 @@ if ($funcion != "login" && $funcion != "registro"&& $funcion != "buscador"
         && $funcion != "marker"&& $funcion != "register"&& $funcion != "mensaje"&& $funcion != "editar"&& $funcion != "foto"
         && $funcion != "comenpost" && $funcion != "recid" && $funcion != "postbyid" && $funcion != "ver" && $funcion != "todo" && $funcion != "ff" && $funcion != "unfollow"
         && $funcion != "follows" && $funcion != "followers" 
-        && $funcion != "verusuario" && $funcion != "verusu") {
+        && $funcion != "verusuario" && $funcion != "verusu"&& $funcion != "buscadormedio") {
         //Miramos si el Token esta bien del usuario logeado
         try {
             $userLogged = new usuario();

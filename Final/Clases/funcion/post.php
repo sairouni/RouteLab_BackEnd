@@ -42,7 +42,10 @@ try {
 
             case "verusu":
                 $datos = $objeto->postUsu($id);
-                $http->setHttpHeaders(200, new Response("Todos los posts de este usuario", $datos));
+                for ($i = 0; $i < count($datos); $i++) {
+                    $datos[$i]['media'] = (string) $objeto->media($datos[$i]['idpost']);
+                }
+                $http->setHttpHeaders(200, new Response("Todos los posts de este usuario",$datos));
                 break;
             case "ver":
                 $datos = $objeto->getbyIdPost($id);
@@ -62,7 +65,7 @@ try {
     if ($verb == 'POST') {
         switch (strtolower($funcion)) {
             case "post":
-                $jsonvalue = json_decode(file_get_contents("php://input"), false);
+                $jsonvalue = json_decode(json_decode(file_get_contents("php://input"), false));
                 $titulo = $jsonvalue->post->titulo;
                 $objeto->setTitulo($titulo);
                 $descrip = $jsonvalue->post->descripcion;
@@ -76,8 +79,9 @@ try {
                 $objeto->setUsuario($userLogged);
                 $objeto->save();
                 $markers = $jsonvalue->post->markers;
-                $localidad = new Localidad();
+                
                 foreach ($markers as $marker) {
+                    $localidad = new Localidad();
                     foreach ($marker as $key => $value) {
                         $localidad->$key = $value;
                     }
@@ -94,8 +98,6 @@ try {
                     $asociada->setidPost($objeto->idpost);
                     $asociada->save();
                 }
-
-
                 $recaso = $jsonvalue->post->recs;
                 foreach ($recaso as $rec) {
                     $recasociada = new RecAsociada();
@@ -158,13 +160,7 @@ try {
                 $jsonRegistro = json_decode(file_get_contents("php://input"), false);
                 $categoriavalor = $jsonRegistro->valor;
                 $datos = $objeto->buscador_ruta($categoriavalor);
-//               $datos = $objeto->loadAll();
-//                for ($i = 0; $i < count($datos); $i++) {
-//                    $datos[$i]['media'] = (string) $objeto->media($datos[$i]['idpost']);
-//                }
                 $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
-
-
                 break;
 
 
@@ -176,15 +172,21 @@ try {
                     $datos = $objeto->buscador_categoria($categoria);
                     $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
                 } elseif (!isset($jsonRegistro->categoria)) {
-                    $ciudad = $jsonRegistro->poblacion;
+                    $ciudad = $jsonRegistro->poblacion;          
                     $datos = $objeto->buscador_ciudad($ciudad);
-                    $http->setHttpHeaders(200, new Response("Lista $controller", $datos));
-                } else {
-
-                    $datos = $objeto->buscador_categoria($categoria);
-                    $datos2 = $objeto->buscador_ciudad($ciudad);
-                    $resultado = array_merge($datos, $datos2);
+                    $post= new Post();
+                    $resultado=$post->CiudadUsu($datos);               
                     $http->setHttpHeaders(200, new Response("Lista $controller", $resultado));
+                    
+                } else {
+                    $categoria = $jsonRegistro->categoria;
+                    $datos1 = $objeto->buscador_categoria($categoria);
+                     $ciudad = $jsonRegistro->poblacion;          
+                    $datos = $objeto->buscador_ciudad($ciudad);
+                    $post= new Post();
+                    $resultado=$post->CiudadUsu($datos);      
+                    $final = array_merge($datos1, $resultado);
+                    $http->setHttpHeaders(200, new Response("Lista $controller", $final));
                 }
 
 

@@ -22,9 +22,12 @@ try {
                 $datos = $objeto->media($id);
                 $http->setHTTPHeaders(200, new Response("Lista Media Cantidad Estrellas", (string) $datos));
                 break;
-            case "gettoken":
-                $datos = $objeto->getbyToken($id);
-                $http->setHTTPHeaders(200, new Response("Datos:", $datos));
+            case "loadusu":
+                $datos = $objeto->getbyToken($token);
+                $id = $objeto->idusuario;
+                $datos = $objeto->verUsu($id);
+                $http->setHTTPHeaders(200, new Response("Datos:",$datos));
+           
                 break;
             case "ver":
                 $id = $userLogged->idusuario;
@@ -176,42 +179,41 @@ try {
                 //  $body = file_get_contents('php://input');
                 $files = $_FILES;
                 if (isset($files["photo"])) {
-     
-                    if ($files["photo"] != "undefined") { 
-                        try { 
-                            $nombreusu=$userLogged->nombreusuario;
-                            $ruta = $_SERVER['DOCUMENT_ROOT']."/assets/uploads/usuarios/".$nombreusu.".jpg";
-                            move_uploaded_file($files["photo"]["tmp_name"],$ruta);
+
+                    if ($files["photo"] != "undefined") {
+                        try {
+                            $nombreusu = $userLogged->nombreusuario;
+                            $ruta = $_SERVER['DOCUMENT_ROOT'] . "/assets/uploads/usuarios/" . $nombreusu . ".jpg";
+                            move_uploaded_file($files["photo"]["tmp_name"], $ruta);
                         } catch (Exception $e) {
                             $http->setHttpHeaders(200, new Response("Bad request Error No User With This Token"));
                             die();
                         }
-                       
                     }
                 }
-                  $datos=$userLogged->nombreusuario;
-               $http->setHTTPHeaders(201, new Response("Foto de Perfil Registrada correctamente",$datos));
+                $datos = $userLogged->nombreusuario;
+                $http->setHTTPHeaders(201, new Response("Foto de Perfil Registrada correctamente", $datos));
 
                 break;
-                
-                 case "fotoback":
+
+            case "fotoback":
                 //  $body = file_get_contents('php://input');
                 $files = $_FILES;
                 if (isset($files["photo"])) {
-     
-                    if ($files["photo"] != "undefined") { 
-                        try { 
-                            $nombreusu=$userLogged->nombreusuario;
-                            $ruta = $_SERVER['DOCUMENT_ROOT']."/assets/uploads/background/".$nombreusu.".jpg";
-                            move_uploaded_file($files["photo"]["tmp_name"],$ruta);
+
+                    if ($files["photo"] != "undefined") {
+                        try {
+                            $nombreusu = $userLogged->nombreusuario;
+                            $ruta = $_SERVER['DOCUMENT_ROOT'] . "/assets/uploads/background/" . $nombreusu . ".jpg";
+                            move_uploaded_file($files["photo"]["tmp_name"], $ruta);
                         } catch (Exception $e) {
                             $http->setHttpHeaders(200, new Response("Bad request Error No User With This Token"));
                             die();
                         }
                     }
                 }
-                  $datos=$userLogged->nombreusuario;
-               $http->setHTTPHeaders(201, new Response("Foto background registrado",$datos));
+                $datos = $userLogged->nombreusuario;
+                $http->setHTTPHeaders(201, new Response("Foto background registrado", $datos));
 
                 break;
 
